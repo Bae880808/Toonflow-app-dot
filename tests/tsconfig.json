@@ -1,0 +1,5 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": { "paths": { "@/*": ["../apps/server/src/*"] } },
+  "include": ["unit", "integration", "../packages/providers/types.d.ts"]
+}
