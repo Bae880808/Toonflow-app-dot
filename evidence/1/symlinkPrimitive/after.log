@@ -1,0 +1,32 @@
+bun test v1.3.14 (0d9b296a)
+
+unit/providerFixture.test.ts:
+(pass) provider fixture rejects missing key without transport invocation [0.81ms]
+(pass) provider fixture maps supported text input to final video output [0.60ms]
+(pass) provider fixture surfaces submission HTTP failure without polling [0.13ms]
+(pass) provider fixture rejects success status without required task identifier [0.10ms]
+(pass) provider fixture surfaces failed task instead of reporting media success [0.21ms]
+(pass) provider fixture cancellation terminates pending polling [1.09ms]
+(pass) provider fixture propagates its deadline to an outstanding submission [1.92ms]
+(pass) provider fixture deadline interrupts pending polling without another request [1.50ms]
+
+integration/workspaceFiles.test.ts:
+(pass) workspace saves and reopens exact persisted content [9.40ms]
+(pass) workspace rejects parent traversal and absolute paths [0.42ms]
+(pass) workspace rejects mutation of its root [0.44ms]
+(pass) workspace exclusive save preserves same-name destination [1.01ms]
+(pass) workspace copy refuses existing target and preserves source [1.11ms]
+(pass) workspace parent lock rejects conflicting descendant then releases [0.59ms]
+(pass) shared symlink creates a real fixture and workspace rejects every escape without changing the target [2.57ms]
+
+integration/pluginInitialization.test.ts:
+(pass) plugins first revision installs selected built-ins and writes exact revision [2.77ms]
+(pass) plugins same revision restart leaves installed bytes unchanged [1.93ms]
+(pass) plugins revision upgrade preserves third-party plugins and user materials [2.92ms]
+(pass) plugins failed replacement preserves prior revision and recoverable target [1.90ms]
+(pass) plugins missing source does not advance revision [0.86ms]
+
+ 20 pass
+ 0 fail
+ 69 expect() calls
+Ran 20 tests across 3 files. [308.00ms]

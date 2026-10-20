@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, expect, test } from "bun:test";
-import { mkdtemp, mkdir, readFile, realpath, rm, writeFile } from "@toonflow/file";
+import { lstat, mkdtemp, mkdir, readFile, readdir, realpath, rm, unlink, writeFile } from "@toonflow/file";
 import { isAbsolute, join } from "node:path";
 import { tmpdir } from "node:os";
 
@@ -58,4 +58,37 @@ test("workspace parent lock rejects conflicting descendant then releases", async
   finally { release(); }
   const releaseNext = files.lockWorkspaceFiles([join(folder, "file.txt")]);
   releaseNext();
+});
+
+
+test("shared symlink creates a real fixture and workspace rejects every escape without changing the target", async () => {
+  const file = await import("@toonflow/file");
+  expect(typeof file.symlink).toBe("function");
+  const outside = await realpath(await mkdtemp(join(tmpdir(), "toonflowOutsideTest")));
+  const link = join(root, "escape");
+  const canary = join(outside, "canary.txt");
+  let linked = false;
+  try {
+    await writeFile(canary, "outside must remain unchanged");
+    await file.symlink(outside, link, process.platform === "win32" ? "junction" : "dir");
+    linked = true;
+    expect((await lstat(link)).isSymbolicLink()).toBe(true);
+    expect(await realpath(link)).toBe(outside);
+    expect(await readFile(join(link, "canary.txt"), "utf8")).toBe("outside must remain unchanged");
+    await expect(file.symlink(outside, link, process.platform === "win32" ? "junction" : "dir")).rejects.toMatchObject({ code: "EEXIST" });
+    await expect(files.resolveWorkspacePath(root, "escape")).rejects.toMatchObject({ status: 403, message: "不能通过符号链接操作文件" });
+    await expect(files.resolveWorkspacePath(root, "escape/canary.txt")).rejects.toMatchObject({ status: 403, message: "只能操作当前工作区内的文件" });
+    await expect(files.resolveWorkspacePath(root, "escape/new.txt")).rejects.toMatchObject({ status: 403, message: "只能操作当前工作区内的文件" });
+    await expect(files.resolveWorkspacePath(root, "escape/missing/nested/new.txt", true)).rejects.toMatchObject({ status: 403, message: "只能操作当前工作区内的文件" });
+    expect(await readdir(outside)).toEqual(["canary.txt"]);
+    expect(await readFile(canary, "utf8")).toBe("outside must remain unchanged");
+    await unlink(link);
+    linked = false;
+    await expect(lstat(link)).rejects.toMatchObject({ code: "ENOENT" });
+    expect((await lstat(outside)).isDirectory()).toBe(true);
+    expect(await readFile(canary, "utf8")).toBe("outside must remain unchanged");
+  } finally {
+    try { if (linked) await unlink(link); }
+    finally { await rm(outside, { recursive: true, force: true }); }
+  }
 });

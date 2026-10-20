@@ -13,7 +13,7 @@ export const coreWorkspaces = expectedWorkspaces.filter((path) => path !== "apps
 
 export const fixedTests = [
   { path: "tests/unit/providerFixture.test.ts", count: 8 },
-  { path: "tests/integration/workspaceFiles.test.ts", count: 6 },
+  { path: "tests/integration/workspaceFiles.test.ts", count: 7 },
   { path: "tests/integration/pluginInitialization.test.ts", count: 5 },
 ];
 export const profiles = ["core", "windows", "macArm64", "macX64", "android"];

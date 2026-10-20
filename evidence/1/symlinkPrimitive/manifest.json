@@ -1,0 +1,29 @@
+{
+  "baselinePublicCommit": "db6ad2c8dc6378232be56990322643148efeb518",
+  "baselineLocalCommit": "de9673eea315c1153cf6bceee67ab6681df77ff1",
+  "sameBaselineTree": "fbb7c1fc940740109fde9d693ae1c7ae112523b4",
+  "testSha256Before": "1e318e39266ce27c202cfa86a0474487bfaff963334e86d8e559e1947c05fb3e",
+  "testSha256After": "1e318e39266ce27c202cfa86a0474487bfaff963334e86d8e559e1947c05fb3e",
+  "beforeExit": 1,
+  "afterExit": 0,
+  "before": {
+    "pass": 19,
+    "fail": 1,
+    "reason": "Executed missing symlink callable assertion; not a workspace escape vulnerability"
+  },
+  "after": {
+    "pass": 20,
+    "fail": 0,
+    "assertions": 69
+  },
+  "fileTypecheckExit": 0,
+  "platform": "Linux",
+  "bun": "1.3.14",
+  "commands": [
+    "From tests/: bun test ./unit/providerFixture.test.ts ./integration/workspaceFiles.test.ts ./integration/pluginInitialization.test.ts",
+    "From root: bun run --cwd packages/file typecheck"
+  ],
+  "environment": "TOONFLOW_TEST_SANDBOX=1; NODE_ENV=production; TOONFLOW_DATA_DIR dedicated temporary directory",
+  "windowsJunction": "Not yet run",
+  "publicLogs": "Private absolute roots replaced; trailing whitespace normalized only"
+}
