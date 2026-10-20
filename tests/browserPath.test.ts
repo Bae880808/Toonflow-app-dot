@@ -42,6 +42,15 @@ async function eventually(check: () => Promise<boolean>, description: string, ti
   }
 }
 
+async function bounded<T>(operation: Promise<T>, stage: string, milliseconds: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([operation, new Promise<never>((_resolve, reject) => {
+      timer = setTimeout(() => reject(new Error(`Timed out: ${stage}`)), milliseconds);
+    })]);
+  } finally { clearTimeout(timer); }
+}
+
 // These are real pointer/keyboard actions. DOM evaluation is read-only: no Vue state,
 // localStorage writes, injected events or API shortcuts for onboarding/workspace/editing.
 async function clickText(page: Page, selector: string, text: string) {
@@ -108,7 +117,7 @@ test("Windows browser completes first launch, creates and edits a text node, sav
         value = value.replace(new RegExp(escaped, "gi"), "[private-test-path]");
       }
     }
-    return value.replace(/https?:\/\/[^\s<>"']+/gi, "[redacted-url]")
+    return value.replace(/(?:https?|wss?):\/\/[^\s<>"']+/gi, "[redacted-url]")
       .replace(/(^|[\s("'`])@[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)?/gm, "$1[redacted-mention]");
   }
   await writeAtomic(join(evidence, "browserPath.json"), JSON.stringify({ result: "FAIL", stage: "preflight not completed", steps: [] }, null, 2));
@@ -136,23 +145,43 @@ test("Windows browser completes first launch, creates and edits a text node, sav
   let browser: Browser | undefined;
   let page: Page | undefined;
   let child: ReturnType<typeof Bun.spawn> | undefined;
+  let chrome: ReturnType<typeof Bun.spawn> | undefined;
+  let chromeOutput = "";
+  let chromeReaders: Promise<void>[] = [];
   let output = "";
   let readers: Promise<void>[] = [];
   const consoleLog: string[] = [];
+  const outputErrors: string[] = [];
   const pageErrors: string[] = [];
   const networkErrors: string[] = [];
   const interceptionPending = new Set<Promise<void>>();
   const steps: { name: string; screenshot: string; url: string; time: string }[] = [];
   let failure: unknown;
-  const terminate = () => { browser?.process()?.kill("SIGKILL"); child?.kill("SIGKILL"); };
-  const watchdog = setTimeout(terminate, 150_000);
+  let stage = "server startup";
+  async function checkpoint(next: string) {
+    stage = next;
+    await writeAtomic(join(evidence, "browserPath.json"), JSON.stringify({
+      result: "FAIL", stage, status: "not completed", steps: steps.map(step => ({ ...step, url: sanitize(step.url) })),
+      rawLogSha256: { server: hash(Buffer.from(output)), chrome: hash(Buffer.from(chromeOutput)) },
+    }, null, 2));
+    await writeAtomic(join(evidence, "browserServer.log"), sanitize(output));
+    await writeAtomic(join(evidence, "chromeStartup.log"), sanitize(chromeOutput));
+    console.log(`Browser acceptance stage: ${next}`);
+  }
+  const terminate = () => { if (chrome?.exitCode === null) chrome.kill("SIGKILL"); if (child?.exitCode === null) child.kill("SIGKILL"); };
+  function observeOutput(operation: Promise<void>) {
+    return operation.catch(error => { outputErrors.push(String(error)); terminate(); });
+  }
+  // Reserve the final minute of the 180s test budget for diagnostics and cleanup.
+  const watchdog = setTimeout(terminate, 120_000);
   process.once("SIGINT", terminate);
   process.once("SIGTERM", terminate);
   async function capture(name: string) {
     if (!page) return;
     const screenshot = `${String(steps.length + 1).padStart(2, "0")}-${name}.png`;
-    await writeAtomic(join(evidence, screenshot), await page.screenshot({ fullPage: true }));
+    await writeAtomic(join(evidence, screenshot), await bounded(page.screenshot({ fullPage: true }), "screenshot", 7_000));
     steps.push({ name, screenshot, url: page.url(), time: new Date().toISOString() });
+    await checkpoint(name);
   }
   async function exitProject() {
     await click(page!, 'button[aria-label="退出项目"]');
@@ -170,6 +199,7 @@ test("Windows browser completes first launch, creates and edits a text node, sav
     await page!.waitForSelector('textarea[aria-label="编辑文本内容"]', { hidden: true });
   }
   try {
+    await checkpoint("server startup");
     await mkdir(home);
     await mkdir(data);
     // Sole safety preseed. Onboarding completion, workspace and canvas all come from UI.
@@ -185,7 +215,7 @@ test("Windows browser completes first launch, creates and edits a text node, sav
         if (output.length > 2_000_000) { terminate(); throw new Error("Excessive server output"); }
       }
     }
-    readers = [drain(child.stdout as ReadableStream<Uint8Array>), drain(child.stderr as ReadableStream<Uint8Array>)];
+    readers = [observeOutput(drain(child.stdout as ReadableStream<Uint8Array>)), observeOutput(drain(child.stderr as ReadableStream<Uint8Array>))];
     await eventually(async () => {
       if (child!.exitCode !== null) throw new Error(`Server exited before readiness: ${child!.exitCode}`);
       return output.includes("[服务启动成功]");
@@ -194,11 +224,39 @@ test("Windows browser completes first launch, creates and edits a text node, sav
       .map(line => JSON.parse(line.slice("RUNTIME_GUARD ".length))).filter(event => event.event === "listenerAddress");
     expect(addresses.length).toBeGreaterThanOrEqual(2);
     expect(addresses.every(event => event.detail.address === "127.0.0.1")).toBe(true);
-    browser = await puppeteer.default.launch({ executablePath, headless: true, pipe: true,
-      userDataDir: join(temporary, "chrome"), env: cleanEnvironment(home), timeout: 25_000,
-      defaultViewport: { width: 1440, height: 1000 }, args: ["--disable-background-networking", "--no-first-run", "--no-default-browser-check"],
-    });
-    page = await browser.newPage();
+    await checkpoint("Chrome arguments");
+    // Windows Bun cannot be assumed to implement Chrome's extra fd 3/4 pipe
+    // transport. Own the process immediately and connect over an explicit loopback
+    // random port instead. No public listener, tunnel, sandbox bypass or download.
+    const chromeArgs = await bounded(puppeteer.default.defaultArgs({ headless: true,
+      userDataDir: join(temporary, "chrome"), args: ["--remote-debugging-address=127.0.0.1", "--remote-debugging-port=0", "--no-default-browser-check"],
+    }), "Chrome arguments", 5_000);
+    if (chromeArgs.some(argument => /--(?:no-sandbox|disable-setuid-sandbox|disable-web-security|remote-debugging-pipe)(?:=|$)/.test(argument))) throw new Error("Unsafe Chrome argument refused");
+    await checkpoint("Chrome endpoint startup");
+    chrome = Bun.spawn([executablePath, ...chromeArgs], { cwd: temporary, env: cleanEnvironment(home), stdin: "ignore", stdout: "pipe", stderr: "pipe" });
+    async function drainChrome(stream: ReadableStream<Uint8Array>) {
+      for await (const chunk of stream) {
+        chromeOutput += Buffer.from(chunk).toString();
+        if (chromeOutput.length > 2_000_000) { terminate(); throw new Error("Excessive Chrome output"); }
+      }
+    }
+    chromeReaders = [observeOutput(drainChrome(chrome.stdout as ReadableStream<Uint8Array>)), observeOutput(drainChrome(chrome.stderr as ReadableStream<Uint8Array>))];
+    let endpoint: string | undefined;
+    await eventually(async () => {
+      if (chrome!.exitCode !== null) throw new Error(`Chrome exited before endpoint: ${chrome!.exitCode}`);
+      endpoint = chromeOutput.match(/DevTools listening on (ws:\/\/[^\s]+)/)?.[1];
+      return !!endpoint;
+    }, "Chrome loopback endpoint", 20_000);
+    const endpointUrl = new URL(endpoint!);
+    if (endpointUrl.protocol !== "ws:" || endpointUrl.hostname !== "127.0.0.1" || !endpointUrl.port
+      || endpointUrl.username || endpointUrl.password || !endpointUrl.pathname.startsWith("/devtools/browser/")) throw new Error("Chrome debugging endpoint is not the expected loopback endpoint");
+    await checkpoint("Chrome CDP connect");
+    browser = await bounded(puppeteer.default.connect({ browserWSEndpoint: endpoint!, protocolTimeout: 10_000,
+      defaultViewport: { width: 1440, height: 1000 },
+    }), "Chrome CDP connect", 15_000);
+    await checkpoint("Chrome new page");
+    page = await bounded(browser.newPage(), "Chrome new page", 15_000);
+    await checkpoint("browser request interception");
     page.setDefaultTimeout(15_000);
     page.setDefaultNavigationTimeout(25_000);
     await page.setRequestInterception(true);
@@ -214,6 +272,7 @@ test("Windows browser completes first launch, creates and edits a text node, sav
     page.on("console", message => { consoleLog.push(`${message.type()}: ${message.text()}`); if (message.type() === "error") pageErrors.push(message.text()); });
     page.on("pageerror", error => pageErrors.push(String(error)));
     page.on("response", response => { if (response.status() >= 400) networkErrors.push(`${response.status()} ${new URL(response.url()).pathname}`); });
+    await checkpoint("first page navigation");
     await page.goto(origin, { waitUntil: "networkidle0" });
     await page.waitForSelector(".hello", { visible: true });
     await capture("first-launch");
@@ -270,6 +329,7 @@ test("Windows browser completes first launch, creates and edits a text node, sav
     expect(await readFile(canvasPath)).toEqual(savedBytes);
     expect(await readFile(join(workspace, node.data.textPath), "utf8")).toBe(fixture);
     expect(hash(await readFile(join(root, "build/server/index.js")))).toBe(hash(bundle));
+    expect(outputErrors).toEqual([]);
     expect(networkErrors).toEqual([]);
     expect(pageErrors).toEqual([]);
     expect(output.includes('"event":"blockedOutbound"')).toBe(false);
@@ -285,10 +345,19 @@ test("Windows browser completes first launch, creates and edits a text node, sav
     const cleanupErrors: unknown[] = [];
     try {
       if (browser) {
-        const force = setTimeout(() => browser?.process()?.kill("SIGKILL"), 5_000);
+        const force = setTimeout(() => { if (chrome?.exitCode === null) chrome.kill("SIGKILL"); }, 5_000);
         try { await Promise.race([browser.close(), Bun.sleep(8_000).then(() => { throw new Error("Browser cleanup timed out"); })]); }
         finally { clearTimeout(force); }
       }
+    } catch (error) { cleanupErrors.push(error); }
+    try {
+      if (chrome) {
+        if (chrome.exitCode === null) chrome.kill();
+        const force = setTimeout(() => { if (chrome?.exitCode === null) chrome.kill("SIGKILL"); }, 2_000);
+        try { await bounded(chrome.exited, "Chrome process cleanup", 6_000); }
+        finally { clearTimeout(force); }
+      }
+      await bounded(Promise.all(chromeReaders), "Chrome output cleanup", 3_000);
     } catch (error) { cleanupErrors.push(error); }
     try {
       if (child) {
@@ -297,27 +366,28 @@ test("Windows browser completes first launch, creates and edits a text node, sav
         try { await Promise.race([child.exited, Bun.sleep(6_000).then(() => { throw new Error("Server cleanup timed out"); })]); }
         finally { clearTimeout(force); }
       }
-      await Promise.all(readers);
+      await bounded(Promise.all(readers), "Server output cleanup", 3_000);
     } catch (error) { cleanupErrors.push(error); }
     try {
       await Promise.race([Promise.all([...interceptionPending]), Bun.sleep(3_000).then(() => { throw new Error("Pending request interception cleanup timed out"); })]);
     } catch (error) { cleanupErrors.push(error); }
-    if (networkErrors.length || pageErrors.length || output.includes('"event":"blockedOutbound"')) cleanupErrors.push(new Error("Browser/server diagnostics contain errors after close"));
+    if (outputErrors.length || networkErrors.length || pageErrors.length || output.includes('"event":"blockedOutbound"')) cleanupErrors.push(new Error("Browser/server diagnostics contain errors after close"));
     try { await rm(temporary, { recursive: true, force: true }); } catch (error) { cleanupErrors.push(error); }
     const rawConsole = consoleLog.join("\n");
     try {
       await writeAtomic(join(evidence, "browserConsole.log"), sanitize(rawConsole));
       await writeAtomic(join(evidence, "browserServer.log"), sanitize(output));
+      await writeAtomic(join(evidence, "chromeStartup.log"), sanitize(chromeOutput));
     } catch (error) { cleanupErrors.push(error); }
     // Serialize the final result only after shutdown, pending interceptions, data
     // removal and log writes. The initial FAIL manifest survives any earlier failure.
     try {
       await writeAtomic(join(evidence, "browserPath.json"), JSON.stringify({
-        result: failure || cleanupErrors.length ? "FAIL" : "PASS",
+        result: failure || cleanupErrors.length ? "FAIL" : "PASS", stage,
         steps: steps.map(step => ({ ...step, url: sanitize(step.url) })),
-        pageErrors: pageErrors.map(sanitize), networkErrors: networkErrors.map(sanitize),
+        outputErrors: outputErrors.map(sanitize), pageErrors: pageErrors.map(sanitize), networkErrors: networkErrors.map(sanitize),
         cleanupErrors: cleanupErrors.map(error => sanitize(String(error))), failure: failure ? sanitize(String(failure)) : null,
-        rawLogSha256: { console: hash(Buffer.from(rawConsole)), server: hash(Buffer.from(output)), failure: failure ? hash(Buffer.from(String(failure))) : null },
+        rawLogSha256: { chrome: hash(Buffer.from(chromeOutput)), console: hash(Buffer.from(rawConsole)), server: hash(Buffer.from(output)), failure: failure ? hash(Buffer.from(String(failure))) : null },
       }, null, 2));
     } catch (error) { cleanupErrors.push(error); }
     if (cleanupErrors.length) throw new AggregateError((failure ? [failure, ...cleanupErrors] : cleanupErrors).map(error => new Error(sanitize(String(error)))), "Browser acceptance cleanup failed");
