@@ -46,7 +46,7 @@ bun scripts/verify.ts --profile core --base <完整旧SHA> --head <完整候选S
 
 CI 使用独立准备步骤 `node scripts/prepareDependencies.ts`，仅执行 `bun install --frozen-lockfile --ignore-scripts`。准备前后对全部受 Git 跟踪的 package.json 与 bun.lock 计算 SHA-256（包含嵌套锁文件），并检查它们与 HEAD 一致；任何变更、文件删除、清单增减、安装失败都会阻断；未忽略且未暂存的新清单或锁文件也会阻断。即使安装失败也检查文件不可变。没有普通安装回退，不禁用完整性校验，不运行生命周期脚本。新增 14 项隔离 Git fixture 自测覆盖这些保护；它们是基础设施测试，不是业务验收。
 
-不下载 SDK、不调用 SDK prepare 或远程安装回退，不改依赖/锁文件或其他既有工作流。缺失 SDK 仍明确失败/未验证；禁用安装脚本后若任何原生组件尚未准备，同样不得跳过相应检查。依赖准备成功不等于业务测试、构建或运行已通过。完整 core 尚有上述覆盖缺口，继续保持 draft。
+在依赖安装前，显式执行 `node scripts/prepareSdkTypes.ts`：下载固定 Electrobun 2.0.1 Windows x64 官方归档，校验完整大小与 SHA-256，再用系统 tar 将两个原始配置类型成员仅流式读取到内存，逐项校验长度与 hash，最后写入全新 `.hutch/devkit/api/config`。已有 `.hutch` 拒绝覆盖。不会解包其他成员，不运行归档程序，不创建替代类型，不调用 SDK prepare 或远程安装回退，不改依赖/锁文件。此准备只满足 core 配置类型需要，不代表桌面 SDK、安装或运行已验证。7 项隔离 fixture 验证完整性、路径白名单、版本及不覆盖保护。缺失类型仍明确失败/未验证；禁用安装脚本后若任何原生组件尚未准备，同样不得跳过相应检查。依赖准备成功不等于业务测试、构建或运行已通过。完整 core 尚有上述覆盖缺口，继续保持 draft。
 
 ## 本次 bootstrap 证据
 
