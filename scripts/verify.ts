@@ -15,7 +15,7 @@ function command(executable: string, args: string[], timeout = 10000, env = proc
   const output = `${result.stdout ?? ""}${result.stderr ?? ""}`;
   commands.push({ command: [executable, ...args], cwd, exitCode: result.status, output: executable === "git" ? "Git inspection output retained locally, not republished" : output });
   if (result.error || result.status !== 0) throw new Error(`${args[0]} failed: ${result.error?.message ?? result.status}`);
-  return output;
+  return executable === "git" ? result.stdout ?? "" : output;
 }
 function git(args: string[]) {
   return command("git", ["--no-pager", "-c", "core.fsmonitor=false", ...args], 10000, { ...process.env, GIT_OPTIONAL_LOCKS: "0" });
@@ -77,6 +77,8 @@ async function main() {
     for (const path of ["build/nodes", "build/tools", "build/ext", "build/providers", "build/skills"]) {
       if (!(await file.readdir(resolve(root, path))).length) throw new Error(`Empty artifact directory: ${path}`);
     }
+    const runtimeOutput = command(process.execPath, ["test", "./tests/builtServer.test.ts"], 180000, env);
+    if (!validateTestReport(runtimeOutput, 2)) throw new Error("Built-server test count/report mismatch: expected one guard check and one HTTP lifecycle test");
     if (changed.some(path => path.startsWith("apps/server/src/routes/"))) {
       command(process.execPath, ["run", "--cwd", "apps/server", "routes"], 120000, env);
       git(["diff", "--exit-code", "--", "apps/server/src/router.ts"]);
@@ -85,9 +87,9 @@ async function main() {
     const changedPaths = [...git(["diff", "--name-only", "-z", "HEAD", "--"]).split("\0"), ...git(["ls-files", "--others", "--exclude-standard", "-z"]).split("\0")].filter(Boolean);
     metadata.candidateChanges = changedPaths.map(path => /^[A-Za-z0-9_.\/-]+$/.test(path) && !path.includes("..") ? path : `redacted:${createHash("sha256").update(path).digest("hex")}`);
     requireCondition(candidateStatus === "", "Checks changed the candidate tree");
-    metadata.completed = "37 core workspaces, providers/tests types, fixed 20 tests, standalone build and artifact presence";
+    metadata.completed = "37 core workspaces, providers/tests types, fixed 20 behavior tests, standalone build/artifacts, one runtime guard check and one built-server HTTP lifecycle test";
     // No self-signed approval switch. These omitted acceptance paths remain visible, not silently skipped.
-    blocked.push("Required core coverage remains unimplemented: HTTP authorization/invalid request paths, built-server/browser persistence path");
+    blocked.push("Required core coverage remains unimplemented in the automated gate: browser node editing, save and reopen path");
     blocked.push("Human review required: complete UI evidence and exact dev integration candidate; build/artifact presence is not runtime verification");
     if (options.profile !== "core") blocked.push(`${options.profile} installation/runtime profile is not implemented`);
     for (const check of additionalChecks(changed)) blocked.push(`Additional impact validation required: ${check}`);

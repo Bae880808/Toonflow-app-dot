@@ -16,6 +16,8 @@
   "include": [
     "unit",
     "integration",
-    "../packages/providers/types.d.ts"
+    "../packages/providers/types.d.ts",
+    "builtServer.test.ts",
+    "../scripts/runtimeGuard.ts"
   ]
 }

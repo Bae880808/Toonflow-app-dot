@@ -17,6 +17,13 @@ jobs:
     name: core acceptance (incomplete baseline blocks)
     runs-on: windows-2025
     timeout-minutes: 35
+    # Apply before checkout and throughout this job, without changing global Git config.
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.eol
+      GIT_CONFIG_VALUE_1: lf
     steps:
       - name: Checkout exact candidate
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -29,7 +36,7 @@ jobs:
         with:
           node-version: '24.19.0'
       - name: Verify infrastructure guards (not core acceptance)
-        run: node --test tests/verificationPlan.test.ts tests/dependencyPreparation.test.ts tests/sdkTypesPreparation.test.ts tests/providerResolution.test.ts
+        run: node --test tests/verificationPlan.test.ts tests/dependencyPreparation.test.ts tests/sdkTypesPreparation.test.ts tests/providerResolution.test.ts tests/gitInspection.test.ts
       - name: Prepare exact Bun runtime
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
         with:
