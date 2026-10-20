@@ -1,0 +1,14 @@
+✔ requires exact commits and rejects unknown or duplicate switches (1.233897ms)
+✔ fixed inventory rejects missing, additional and duplicate entries (0.189724ms)
+✔ accepts only a complete successful Bun test summary (0.490164ms)
+✔ unknown and shared runtime changes require human impact classification (0.832316ms)
+✔ incomplete checks never produce green or automatic merge eligibility (0.203906ms)
+✔ the underlying test runner detects an intentional assertion failure (83.46087ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 208.92499

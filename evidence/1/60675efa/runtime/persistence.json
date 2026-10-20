@@ -1,0 +1,21 @@
+{
+  "workspaceBytesBeforeRestart": 115,
+  "workspaceSha256": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1",
+  "fullSettingsEqualAfterRestart": true,
+  "settingsComparison": "Exact object equality in probe; raw default provider metadata omitted from publication.",
+  "savedUi": {
+    "language": "en-US"
+  },
+  "initializationMarkers": {
+    "tools": "",
+    "nodes": "",
+    "providers": "67526f97155d5d2ca3f2e295f5f220b29309b91a4173e1fbe0b12bf8497f6440",
+    "skills": ""
+  },
+  "customMaterialSha256": {
+    "tools/userMaterial.txt": "e13e79d7c56da4df193d802de444b3d55ea191318468352ca3bfdb2fe6337734",
+    "providers/userMaterial.txt": "71f8112fc73b6e4a9f5806424f45a12c2c63c2afe7d94b5054f7bf8821b511c4",
+    "skills/userMaterial.txt": "1f1b479e200b3d58dd3991f628399eb9131f95866f0ac02752dda66f1c3c45ef"
+  },
+  "modifiedToolSha256": "28b5f32bad545311d193ecb3c9b59157dd8e3e03221a7893b96e048e6a3f25c5"
+}

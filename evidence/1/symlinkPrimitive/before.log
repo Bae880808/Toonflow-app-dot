@@ -1,0 +1,45 @@
+bun test v1.3.14 (0d9b296a)
+
+unit/providerFixture.test.ts:
+(pass) provider fixture rejects missing key without transport invocation [0.70ms]
+(pass) provider fixture maps supported text input to final video output [0.71ms]
+(pass) provider fixture surfaces submission HTTP failure without polling [0.23ms]
+(pass) provider fixture rejects success status without required task identifier [0.10ms]
+(pass) provider fixture surfaces failed task instead of reporting media success [0.15ms]
+(pass) provider fixture cancellation terminates pending polling [1.75ms]
+(pass) provider fixture propagates its deadline to an outstanding submission [1.50ms]
+(pass) provider fixture deadline interrupts pending polling without another request [1.35ms]
+
+integration/workspaceFiles.test.ts:
+(pass) workspace saves and reopens exact persisted content [7.00ms]
+(pass) workspace rejects parent traversal and absolute paths [0.51ms]
+(pass) workspace rejects mutation of its root [0.51ms]
+(pass) workspace exclusive save preserves same-name destination [1.30ms]
+(pass) workspace copy refuses existing target and preserves source [1.14ms]
+(pass) workspace parent lock rejects conflicting descendant then releases [0.60ms]
+61 | });
+62 |
+63 |
+64 | test("shared symlink creates a real fixture and workspace rejects every escape without changing the target", async () => {
+65 |   const file = await import("@toonflow/file");
+66 |   expect(typeof file.symlink).toBe("function");
+                                   ^
+error: expect(received).toBe(expected)
+
+Expected: "function"
+Received: "undefined"
+
+      at <anonymous> (<REPO>/tests/integration/workspaceFiles.test.ts:66:31)
+(fail) shared symlink creates a real fixture and workspace rejects every escape without changing the target [0.82ms]
+
+integration/pluginInitialization.test.ts:
+(pass) plugins first revision installs selected built-ins and writes exact revision [4.35ms]
+(pass) plugins same revision restart leaves installed bytes unchanged [1.82ms]
+(pass) plugins revision upgrade preserves third-party plugins and user materials [2.30ms]
+(pass) plugins failed replacement preserves prior revision and recoverable target [1.84ms]
+(pass) plugins missing source does not advance revision [0.82ms]
+
+ 19 pass
+ 1 fail
+ 56 expect() calls
+Ran 20 tests across 3 files. [322.00ms]

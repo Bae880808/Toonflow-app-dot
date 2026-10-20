@@ -1,0 +1,14 @@
+(node:12) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Git warnings are not parsed as changed paths and Git logs remain redacted (31.275216ms)
+✔ real changed paths and nonzero Git exits remain visible (26.759858ms)
+✔ non-Git commands retain both output streams for test report validation (64.07801ms)
+✔ workflow checkout uses LF even with a Windows-style global Git configuration (27.086586ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 289.366573

@@ -1,0 +1,105 @@
+{
+  "startedAt": "2026-10-20T11:40:03.487736+00:00",
+  "scope": "Harnessed exact built-server API and filesystem diagnostics; NOT unmodified startup or browser/UI acceptance",
+  "root": "<REPO>",
+  "temporaryRoot": "<RUN>",
+  "dataDirectory": "<RUN>/data",
+  "gitHead": "60675efa5e0ec8225dff20c34018703fc6ac9daf",
+  "bunVersion": "1.3.14",
+  "builtServerSha256": "812215e694eacce77fe498cca32c689bf864ad0b45479afa56799df898e5bc7a",
+  "preloadSha256": "43bb3d23c834f91e44d835f41b4aca601947c1dfff306b56c01c6c43409de2b4",
+  "environment": {
+    "PATH": "/usr/bin:/bin",
+    "HOME": "<RUN>/home",
+    "TMPDIR": "<RUN>/tmp",
+    "XDG_CONFIG_HOME": "<RUN>/xdgConfig",
+    "XDG_CACHE_HOME": "<RUN>/xdgCache",
+    "TOONFLOW_DATA_DIR": "<RUN>/data",
+    "NODE_ENV": "production",
+    "LANG": "C.UTF-8",
+    "TZ": "UTC"
+  },
+  "commands": [
+    {
+      "argv": [
+        "<BUN>",
+        "--preload",
+        "<PRIVATE_EVIDENCE>/loopbackPreload.ts",
+        "<REPO>/build/server/index.js"
+      ],
+      "cwd": "<REPO>",
+      "env": {
+        "PATH": "/usr/bin:/bin",
+        "HOME": "<RUN>/home",
+        "TMPDIR": "<RUN>/tmp",
+        "XDG_CONFIG_HOME": "<RUN>/xdgConfig",
+        "XDG_CACHE_HOME": "<RUN>/xdgCache",
+        "TOONFLOW_DATA_DIR": "<RUN>/data",
+        "NODE_ENV": "production",
+        "LANG": "C.UTF-8",
+        "TZ": "UTC"
+      },
+      "stdoutAndStderr": "<PRIVATE_EVIDENCE>/firstStart.log"
+    },
+    {
+      "argv": [
+        "<BUN>",
+        "--preload",
+        "<PRIVATE_EVIDENCE>/loopbackPreload.ts",
+        "<REPO>/build/server/index.js"
+      ],
+      "cwd": "<REPO>",
+      "env": {
+        "PATH": "/usr/bin:/bin",
+        "HOME": "<RUN>/home",
+        "TMPDIR": "<RUN>/tmp",
+        "XDG_CONFIG_HOME": "<RUN>/xdgConfig",
+        "XDG_CACHE_HOME": "<RUN>/xdgCache",
+        "TOONFLOW_DATA_DIR": "<RUN>/data",
+        "NODE_ENV": "production",
+        "LANG": "C.UTF-8",
+        "TZ": "UTC"
+      },
+      "stdoutAndStderr": "<PRIVATE_EVIDENCE>/secondStart.log"
+    }
+  ],
+  "outcome": "PASS for harnessed scope only",
+  "finishedAt": "2026-10-20T11:40:05.925731+00:00",
+  "processes": [
+    {
+      "pid": 10,
+      "tag": "firstStart",
+      "exitCode": -15
+    },
+    {
+      "pid": 30,
+      "tag": "secondStart",
+      "exitCode": -15
+    }
+  ],
+  "passedChecks": 62,
+  "failedChecks": 0,
+  "temporaryFilesRetainedForReview": true,
+  "postRunVerification": {
+    "capturedAt": "2026-10-20T11:41:25.122351+00:00",
+    "portsReleased": {
+      "3000": true,
+      "10588": true
+    },
+    "builtServerSha256After": "812215e694eacce77fe498cca32c689bf864ad0b45479afa56799df898e5bc7a",
+    "requestCount": 28,
+    "repositoryEditsByThisWorker": false
+  },
+  "rawEvidencePublication": "Raw files retained privately; not bundled here. No private storage path is published.",
+  "publicArtifactScope": "Sanitized results from 62 diagnostic checks and 28 actual HTTP requests, not a formal test-suite/CI count.",
+  "pathPlaceholders": {
+    "<REPO>": "worktree root",
+    "<RUN>": "fresh synthetic temporary data/home/workspace root",
+    "<PRIVATE_EVIDENCE>": "private raw-output directory",
+    "<BUN>": "existing Bun 1.3.14 executable"
+  },
+  "reproductionProbeChanges": "Only ROOT/BUN/PRELOAD discovery and raw-output path selection were made portable after the recorded run; request logic, assertions, guard, process lifecycle and application bundle are unchanged.",
+  "originalProbeSha256": "ea8ec8bb3ecf59ba4200235d9d4bb1409a010f65f7744fa40a7e090327a225b6",
+  "portableProbeSha256": "191a99bfd532f9a3d2761091aabeaa5fbcb478e2837292211640e6cd5b8c5db8",
+  "rawSourceInspectionPublished": false
+}
