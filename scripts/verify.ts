@@ -6,14 +6,14 @@ import { fileURLToPath } from "node:url";
 import { additionalChecks, conclusion, coreWorkspaces, expectedWorkspaces, fixedTests, parseOptions, sameInventory, validateTestReport } from "./verificationPlan.ts";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
-const commands: { command: string[]; exitCode: number | null; output: string }[] = [];
+const commands: { command: string[]; exitCode: number | null; output: string; cwd: string }[] = [];
 const blocked: string[] = [];
 let failed = false;
 const metadata: Record<string, unknown> = { schemaVersion: 1, verifierVersion: "foundation1", generatedAt: new Date().toISOString(), platform: process.platform, arch: process.arch, bun: process.versions.bun ?? null, node: process.versions.node };
-function command(executable: string, args: string[], timeout = 10000, env = process.env) {
-  const result = spawnSync(executable, args, { cwd: root, shell: false, encoding: "utf8", timeout, maxBuffer: 16 * 1024 * 1024, env });
+function command(executable: string, args: string[], timeout = 10000, env = process.env, cwd = root) {
+  const result = spawnSync(executable, args, { cwd, shell: false, encoding: "utf8", timeout, maxBuffer: 16 * 1024 * 1024, env });
   const output = `${result.stdout ?? ""}${result.stderr ?? ""}`;
-  commands.push({ command: [executable, ...args], exitCode: result.status, output: executable === "git" ? "Git inspection output retained locally, not republished" : output });
+  commands.push({ command: [executable, ...args], cwd, exitCode: result.status, output: executable === "git" ? "Git inspection output retained locally, not republished" : output });
   if (result.error || result.status !== 0) throw new Error(`${args[0]} failed: ${result.error?.message ?? result.status}`);
   return output;
 }
@@ -66,7 +66,7 @@ async function main() {
     command(process.execPath, ["node_modules/typescript/bin/tsc", "-p", "packages/providers/tsconfig.json", "--noEmit"], 120000, env);
     command(process.execPath, ["node_modules/typescript/bin/tsc", "-p", "tests/tsconfig.json", "--noEmit"], 120000, env);
     for (const test of fixedTests) {
-      const output = command(process.execPath, ["--tsconfig-override", "tests/tsconfig.json", "test", `./${test.path}`], 120000, env);
+      const output = command(process.execPath, ["test", `./${test.path.slice("tests/".length)}`], 120000, env, resolve(root, "tests"));
       if (!validateTestReport(output, test.count)) throw new Error(`Test count/report mismatch: ${test.path}`);
     }
     command(process.execPath, ["run", "build:server"], 900000, env);
