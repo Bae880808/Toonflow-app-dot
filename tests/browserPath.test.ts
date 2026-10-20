@@ -224,16 +224,82 @@ test("Windows browser completes first launch, creates and edits a text node, sav
       .map(line => JSON.parse(line.slice("RUNTIME_GUARD ".length))).filter(event => event.event === "listenerAddress");
     expect(addresses.length).toBeGreaterThanOrEqual(2);
     expect(addresses.every(event => event.detail.address === "127.0.0.1")).toBe(true);
+    await checkpoint("Windows known folder probe");
+    const chromeEnvironment = cleanEnvironment(home);
+    const powershell = join(chromeEnvironment.SystemRoot!, "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
+    async function probeLocalAppData(env: Record<string, string>) {
+      // Same API and flags as Chromium base_paths_win.cc. Read-only, no registry
+      // changes, policy overrides, real user profile access or downloads.
+      const script = `$ErrorActionPreference = 'Stop'
+Add-Type -TypeDefinition @'
+using System;
+using System.Text;
+using System.Runtime.InteropServices;
+public static class ToonflowKnownFolderProbe {
+  [DllImport("shell32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+  public static extern int SHGetFolderPathW(IntPtr owner, int folder, IntPtr token, uint flags, StringBuilder path);
+}
+'@
+$path = New-Object System.Text.StringBuilder 32768
+$result = [ToonflowKnownFolderProbe]::SHGetFolderPathW([IntPtr]::Zero, 0x1c, [IntPtr]::Zero, 0, $path)
+@{ hresult = $result; path = $path.ToString() } | ConvertTo-Json -Compress`;
+      const probe = Bun.spawn([powershell, "-NoProfile", "-NonInteractive", "-Command", script], {
+        cwd: temporary, env, stdin: "ignore", stdout: "pipe", stderr: "pipe",
+      });
+      try {
+        const [code, stdout, stderr] = await bounded(Promise.all([
+          probe.exited, new Response(probe.stdout).text(), new Response(probe.stderr).text(),
+        ]), "Windows known folder probe", 10_000);
+        if (code !== 0) throw new Error(`KnownFolder probe exit=${code}; stderr SHA-256=${hash(Buffer.from(stderr))}`);
+        const result = JSON.parse(stdout.replace(/^\uFEFF/, "")) as { hresult: number; path: string };
+        if (!Number.isInteger(result.hresult) || typeof result.path !== "string") throw new Error("Invalid KnownFolder probe result");
+        return result;
+      } finally {
+        if (probe.exitCode === null) probe.kill("SIGKILL");
+        await bounded(probe.exited, "Windows known folder probe cleanup", 3_000);
+      }
+    }
+    const beforeKnownFolder = await probeLocalAppData(chromeEnvironment);
+    const localAppData = join(home, "AppData", "Local");
+    const roamingAppData = join(home, "AppData", "Roaming");
+    await mkdir(localAppData, { recursive: true });
+    await mkdir(roamingAppData, { recursive: true });
+    chromeEnvironment.LOCALAPPDATA = localAppData;
+    chromeEnvironment.APPDATA = roamingAppData;
+    const afterKnownFolder = await probeLocalAppData(chromeEnvironment);
+    function withinIsolatedHome(path: string) {
+      if (!isAbsolute(path)) return false;
+      const offset = relative(home, path);
+      return !!offset && offset !== ".." && !offset.startsWith(`..${sep}`) && !isAbsolute(offset);
+    }
+    await writeAtomic(join(evidence, "chromeKnownFolder.json"), JSON.stringify({
+      before: { hresult: beforeKnownFolder.hresult, withinIsolatedHome: withinIsolatedHome(beforeKnownFolder.path) },
+      after: { hresult: afterKnownFolder.hresult, withinIsolatedHome: withinIsolatedHome(afterKnownFolder.path) },
+    }, null, 2));
+    expect(afterKnownFolder.hresult).toBe(0);
+    // Reject a native-profile result before resolving or reading that path.
+    expect(withinIsolatedHome(afterKnownFolder.path)).toBe(true);
+    expect(await realpath(afterKnownFolder.path)).toBe(await realpath(localAppData));
     await checkpoint("Chrome arguments");
     // Windows Bun cannot be assumed to implement Chrome's extra fd 3/4 pipe
     // transport. Own the process immediately and connect over an explicit loopback
     // random port instead. No public listener, tunnel, sandbox bypass or download.
+    await mkdir(join(temporary, "chrome"));
+    const chromeProfile = await realpath(join(temporary, "chrome"));
     const chromeArgs = await bounded(puppeteer.default.defaultArgs({ headless: true,
-      userDataDir: join(temporary, "chrome"), args: ["--remote-debugging-address=127.0.0.1", "--remote-debugging-port=0", "--no-default-browser-check"],
+      userDataDir: chromeProfile, args: ["--remote-debugging-address=127.0.0.1", "--remote-debugging-port=0", "--no-default-browser-check"],
     }), "Chrome arguments", 5_000);
+    const profileArguments = chromeArgs.filter(argument => argument.startsWith("--user-data-dir"));
+    await writeAtomic(join(evidence, "chromeLaunch.json"), JSON.stringify({
+      arguments: chromeArgs.map(sanitize), profileArgumentCount: profileArguments.length,
+      profileMatchesTemporaryDirectory: profileArguments.length === 1 && profileArguments[0] === `--user-data-dir=${chromeProfile}`,
+      backgroundNetworkingDisabled: chromeArgs.includes("--disable-background-networking"),
+    }, null, 2));
+    expect(profileArguments).toEqual([`--user-data-dir=${chromeProfile}`]);
+    expect(chromeArgs).toContain("--disable-background-networking");
     if (chromeArgs.some(argument => /--(?:no-sandbox|disable-setuid-sandbox|disable-web-security|remote-debugging-pipe)(?:=|$)/.test(argument))) throw new Error("Unsafe Chrome argument refused");
     await checkpoint("Chrome endpoint startup");
-    chrome = Bun.spawn([executablePath, ...chromeArgs], { cwd: temporary, env: cleanEnvironment(home), stdin: "ignore", stdout: "pipe", stderr: "pipe" });
+    chrome = Bun.spawn([executablePath, ...chromeArgs], { cwd: temporary, env: chromeEnvironment, stdin: "ignore", stdout: "pipe", stderr: "pipe" });
     async function drainChrome(stream: ReadableStream<Uint8Array>) {
       for await (const chunk of stream) {
         chromeOutput += Buffer.from(chunk).toString();
