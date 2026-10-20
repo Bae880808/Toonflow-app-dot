@@ -12,7 +12,7 @@ export const noTypecheck = ["packages/assets", "packages/modelIcons", "packages/
 export const coreWorkspaces = expectedWorkspaces.filter((path) => path !== "apps/desktop" && !noTypecheck.includes(path));
 
 export const fixedTests = [
-  { path: "tests/unit/providerFixture.test.ts", count: 6 },
+  { path: "tests/unit/providerFixture.test.ts", count: 8 },
   { path: "tests/integration/workspaceFiles.test.ts", count: 6 },
   { path: "tests/integration/pluginInitialization.test.ts", count: 5 },
 ];

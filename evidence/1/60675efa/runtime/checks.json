@@ -1,0 +1,1002 @@
+[
+  {
+    "step": 1,
+    "name": "firstStart port 3000 initially free",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See start() in probeRuntime.py and startup.json; process remains live until success marker, both listener addresses are loopback, no guarded outbound block occurred."
+    }
+  },
+  {
+    "step": 2,
+    "name": "firstStart completed startup",
+    "result": "PASS",
+    "details": {
+      "pid": 10,
+      "log": "<PRIVATE_EVIDENCE>/firstStart.log"
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See start() in probeRuntime.py and startup.json; process remains live until success marker, both listener addresses are loopback, no guarded outbound block occurred."
+    }
+  },
+  {
+    "step": 3,
+    "name": "firstStart listeners bound only to loopback",
+    "result": "PASS",
+    "details": [
+      {
+        "address": "127.0.0.1",
+        "family": "IPv4",
+        "port": 3000
+      },
+      {
+        "address": "127.0.0.1",
+        "family": "IPv4",
+        "port": 10588
+      }
+    ],
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See start() in probeRuntime.py and startup.json; process remains live until success marker, both listener addresses are loopback, no guarded outbound block occurred."
+    }
+  },
+  {
+    "step": 4,
+    "name": "firstStart no attempted non-loopback outbound request",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See start() in probeRuntime.py and startup.json; process remains live until success marker, both listener addresses are loopback, no guarded outbound block occurred."
+    }
+  },
+  {
+    "step": 5,
+    "name": "homepage returns exact built HTML",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "sha256": "a60273433d9e408bb0e7b8ec924bf57021ae60d54efab3783429f8e562c991f9"
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 93,
+      "predicate": "status == 200 and html == (ROOT / 'build/web/index.html').read_bytes()"
+    }
+  },
+  {
+    "step": 6,
+    "name": "javascript static resource is byte-identical to build",
+    "result": "PASS",
+    "details": {
+      "path": "/assets/index-JLUVzAAi.js",
+      "status": 200,
+      "sha256": "75d5a5d704b1d8c63a8345a1699c9daefed8fa595af3fc1186fde6c77243ac49",
+      "bytes": 338706
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See the corresponding check(name, predicate, details) in probeRuntime.py."
+    }
+  },
+  {
+    "step": 7,
+    "name": "stylesheet static resource is byte-identical to build",
+    "result": "PASS",
+    "details": {
+      "path": "/assets/css-C3tX10zG.css",
+      "status": 200,
+      "sha256": "05b3696f2a5b7a492856171721dbc67102fba4b1c87d777e7d55b2dbec7816d1",
+      "bytes": 7875
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See the corresponding check(name, predicate, details) in probeRuntime.py."
+    }
+  },
+  {
+    "step": 8,
+    "name": "first initialization copies tools",
+    "result": "PASS",
+    "details": {
+      "count": 10,
+      "files": [
+        "askUser.tool.js",
+        "workspace.tool.js",
+        "mediaGeneration.tool.js",
+        "skillOperator.tool.js",
+        "webSearch.tool.js",
+        "ffmpeg.tool.js",
+        "webFetch.tool.js",
+        "browser.tool.js",
+        "canvas.tool.js",
+        "assetOperator.tool.js"
+      ]
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "At least one matching built file exists; every installed file exists and is byte-identical to its corresponding built file."
+    }
+  },
+  {
+    "step": 9,
+    "name": "first initialization copies nodes",
+    "result": "PASS",
+    "details": {
+      "count": 8,
+      "files": [
+        "videoGenerationNode.umd.js",
+        "imageGenerationNode.umd.js",
+        "imageNode.umd.js",
+        "textNode.umd.js",
+        "audioGenerationNode.umd.js",
+        "videoNode.umd.js",
+        "director3dNode.umd.js",
+        "audioNode.umd.js"
+      ]
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "At least one matching built file exists; every installed file exists and is byte-identical to its corresponding built file."
+    }
+  },
+  {
+    "step": 10,
+    "name": "first initialization copies ext",
+    "result": "PASS",
+    "details": {
+      "count": 5,
+      "files": [
+        "ext-canvasNode.umd.js",
+        "ext-media.umd.js",
+        "ext-md.umd.js",
+        "ext-image.umd.js",
+        "ext-txt.umd.js"
+      ]
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "At least one matching built file exists; every installed file exists and is byte-identical to its corresponding built file."
+    }
+  },
+  {
+    "step": 11,
+    "name": "first initialization copies providers",
+    "result": "PASS",
+    "details": {
+      "count": 4,
+      "files": [
+        "compshare.ts",
+        "metaso.ts",
+        "apiMart.ts",
+        "tfRouter.ts"
+      ]
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "At least one matching built file exists; every installed file exists and is byte-identical to its corresponding built file."
+    }
+  },
+  {
+    "step": 12,
+    "name": "first initialization installs skill directories",
+    "result": "PASS",
+    "details": {
+      "directories": [
+        "canvas",
+        "v118workflow",
+        "workflow"
+      ]
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 105,
+      "predicate": "len(skills) > 0 and all(((data / 'skills' / p.name / 'SKILL.md').exists() for p in skills))"
+    }
+  },
+  {
+    "step": 13,
+    "name": "plugin initialization markers exist",
+    "result": "PASS",
+    "details": {
+      "providerRevisionLength": 64
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 107,
+      "predicate": "all(((data / name / 'initialized').is_file() for name in markers))"
+    }
+  },
+  {
+    "step": 14,
+    "name": "node metadata API",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": "see captured response"
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 4,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 15,
+    "name": "built node metadata readable without load errors",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 109,
+      "predicate": "len(node_list) == install_counts['nodes'] and all((not e.get('loadError') for e in node_list))"
+    }
+  },
+  {
+    "step": 16,
+    "name": "tool metadata API",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": "see captured response"
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 5,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 17,
+    "name": "built tool metadata readable without load errors",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 111,
+      "predicate": "len(tool_list) == install_counts['tools'] and all((not e.get('loadError') for e in tool_list))"
+    }
+  },
+  {
+    "step": 18,
+    "name": "extension metadata API",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": "see captured response"
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 6,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 19,
+    "name": "built extension metadata readable without load errors",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 113,
+      "predicate": "len(ext_list) == install_counts['ext'] and all((not e.get('loadError') for e in ext_list))"
+    }
+  },
+  {
+    "step": 20,
+    "name": "list server workspaces",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": {
+        "code": 200,
+        "data": {
+          "path": "",
+          "absolutePath": "<RUN>/data/workspaces",
+          "parent": null,
+          "directories": []
+        },
+        "message": "Success"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 7,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 21,
+    "name": "server workspace root is isolated data/workspaces",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 116,
+      "predicate": "server_root == data / 'workspaces'"
+    }
+  },
+  {
+    "step": 22,
+    "name": "create test workspace through API",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": {
+        "code": 200,
+        "data": null,
+        "message": "Success"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 8,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 23,
+    "name": "open allowed test workspace",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": {
+        "code": 200,
+        "data": {
+          "directory": "<RUN>/data/workspaces/runtimeProbe"
+        },
+        "message": "Success"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 9,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 24,
+    "name": "write exact UTF-8 fixture",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": {
+        "code": 200,
+        "data": null,
+        "message": "Success"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 10,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 25,
+    "name": "write persisted exact bytes on disk",
+    "result": "PASS",
+    "details": {
+      "sha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+      "bytes": 81
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 123,
+      "predicate": "(workspace / filename).read_bytes() == fixture"
+    }
+  },
+  {
+    "step": 26,
+    "name": "raw reopen returns identical content",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 125,
+      "predicate": "status == 200 and raw == fixture"
+    }
+  },
+  {
+    "step": 27,
+    "name": "reopen document snapshot",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": {
+        "code": 200,
+        "data": {
+          "text": "Toonflow runtime persistence\n中文内容：保存后重新打开。\nUTF-8: 🌱\n",
+          "encoding": "utf-8",
+          "revision": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea"
+        },
+        "message": "Success"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 12,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 28,
+    "name": "snapshot text and revision match bytes",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 127,
+      "predicate": "snapshot['text'] == fixture.decode() and snapshot['revision'] == sha(fixture) and (snapshot['encoding'] == 'utf-8')"
+    }
+  },
+  {
+    "step": 29,
+    "name": "exclusive write rejects existing target",
+    "result": "PASS",
+    "details": {
+      "status": 409,
+      "body": {
+        "code": 409,
+        "data": {
+          "code": "EEXIST"
+        },
+        "message": "This name is already occupied, please change it. The original content will not be overwritten."
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 13,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 30,
+    "name": "existing target survives exclusive conflict",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 129,
+      "predicate": "(workspace / filename).read_bytes() == fixture"
+    }
+  },
+  {
+    "step": 31,
+    "name": "stale revision rejects write",
+    "result": "PASS",
+    "details": {
+      "status": 409,
+      "body": {
+        "code": 409,
+        "data": {
+          "code": "ESTALE"
+        },
+        "message": "The file was modified in another editor. Your current changes have been retained. Reload the version on disk or save a copy"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 14,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 32,
+    "name": "existing target survives stale revision conflict",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 131,
+      "predicate": "(workspace / filename).read_bytes() == fixture"
+    }
+  },
+  {
+    "step": 33,
+    "name": "matching revision updates content",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": {
+        "code": 200,
+        "data": {
+          "revision": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1"
+        },
+        "message": "Success"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 15,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 34,
+    "name": "revision-checked update returns new revision and exact disk bytes",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 134,
+      "predicate": "update_result['revision'] == sha(updated) and (workspace / filename).read_bytes() == updated"
+    }
+  },
+  {
+    "step": 35,
+    "name": "reject parent traversal",
+    "result": "PASS",
+    "details": {
+      "status": 400,
+      "body": {
+        "code": 400,
+        "data": null,
+        "message": "Invalid file path"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 16,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 36,
+    "name": "reject absolute path",
+    "result": "PASS",
+    "details": {
+      "status": 400,
+      "body": {
+        "code": 400,
+        "data": null,
+        "message": "Invalid file path"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 17,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 37,
+    "name": "reject workspace root",
+    "result": "PASS",
+    "details": {
+      "status": 400,
+      "body": {
+        "code": 400,
+        "data": null,
+        "message": "Cannot modify the workspace root directory"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 18,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 38,
+    "name": "reject symlink directory escape",
+    "result": "PASS",
+    "details": {
+      "status": 403,
+      "body": {
+        "code": 403,
+        "data": null,
+        "message": "File operations are limited to the current workspace"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 19,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 39,
+    "name": "reject symlink file",
+    "result": "PASS",
+    "details": {
+      "status": 403,
+      "body": {
+        "code": 403,
+        "data": null,
+        "message": "Cannot operate file through symbolic link"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 20,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 40,
+    "name": "reject outside server workspace",
+    "result": "PASS",
+    "details": {
+      "status": 403,
+      "body": {
+        "code": 403,
+        "data": null,
+        "message": "Server deployment can only use server workspace"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 21,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 41,
+    "name": "reject missing required directory",
+    "result": "PASS",
+    "details": {
+      "status": 400,
+      "body": {
+        "code": 400,
+        "data": [
+          "Field directory Invalid input: expected string, received undefined"
+        ],
+        "message": "Parameter error"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 22,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 42,
+    "name": "rejected paths leave canary and workspace intact",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 143,
+      "predicate": "(outside / 'canary.txt').read_text() == 'untouched' and sorted((p.name for p in outside.iterdir())) == ['canary.txt'] and (not (server_root / 'escape.txt').exists()) and workspace.is_dir() and ((workspace / filename).read_bytes() == updated)"
+    }
+  },
+  {
+    "step": 43,
+    "name": "read fresh settings",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": "see captured response"
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 23,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 44,
+    "name": "fresh provider settings contain no API keys",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 145,
+      "predicate": "all((not p.get('apiKey') for p in settings.get('customProviders', [])))"
+    }
+  },
+  {
+    "step": 45,
+    "name": "save non-sensitive UI language setting",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": {
+        "code": 200,
+        "data": {
+          "nodeMenu": null
+        },
+        "message": "Settings saved"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 24,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 46,
+    "name": "settings persisted on disk",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 148,
+      "predicate": "json.loads((data / 'settings.json').read_text())['settings']['ui']['language'] == 'en-US'"
+    }
+  },
+  {
+    "step": 47,
+    "name": "first stop process stopped and port 3000 released",
+    "result": "PASS",
+    "details": {
+      "pid": 10,
+      "exitCode": -15
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "Own child has exited; TCP connect to 127.0.0.1:3000 fails."
+    }
+  },
+  {
+    "step": 48,
+    "name": "secondStart port 3000 initially free",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See start() in probeRuntime.py and startup.json; process remains live until success marker, both listener addresses are loopback, no guarded outbound block occurred."
+    }
+  },
+  {
+    "step": 49,
+    "name": "secondStart completed startup",
+    "result": "PASS",
+    "details": {
+      "pid": 30,
+      "log": "<PRIVATE_EVIDENCE>/secondStart.log"
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See start() in probeRuntime.py and startup.json; process remains live until success marker, both listener addresses are loopback, no guarded outbound block occurred."
+    }
+  },
+  {
+    "step": 50,
+    "name": "secondStart listeners bound only to loopback",
+    "result": "PASS",
+    "details": [
+      {
+        "address": "127.0.0.1",
+        "family": "IPv4",
+        "port": 3000
+      },
+      {
+        "address": "127.0.0.1",
+        "family": "IPv4",
+        "port": 10588
+      }
+    ],
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See start() in probeRuntime.py and startup.json; process remains live until success marker, both listener addresses are loopback, no guarded outbound block occurred."
+    }
+  },
+  {
+    "step": 51,
+    "name": "secondStart no attempted non-loopback outbound request",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "See start() in probeRuntime.py and startup.json; process remains live until success marker, both listener addresses are loopback, no guarded outbound block occurred."
+    }
+  },
+  {
+    "step": 52,
+    "name": "reopen workspace after server restart",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": {
+        "code": 200,
+        "data": {
+          "directory": "<RUN>/data/workspaces/runtimeProbe"
+        },
+        "message": "Success"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 25,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 53,
+    "name": "document survives full process restart byte-for-byte",
+    "result": "PASS",
+    "details": {
+      "sha256": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1",
+      "bytes": 115
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 158,
+      "predicate": "status == 200 and raw == updated and ((workspace / filename).read_bytes() == updated)"
+    }
+  },
+  {
+    "step": 54,
+    "name": "snapshot after server restart",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": {
+        "code": 200,
+        "data": {
+          "text": "Toonflow runtime persistence\n中文内容：保存后重新打开。\nUTF-8: 🌱\nRevision-checked update retained.\n",
+          "encoding": "utf-8",
+          "revision": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1"
+        },
+        "message": "Success"
+      }
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 27,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 55,
+    "name": "text and revision survive restart",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 160,
+      "predicate": "snapshot['text'] == updated.decode() and snapshot['revision'] == sha(updated)"
+    }
+  },
+  {
+    "step": 56,
+    "name": "reopen saved settings after restart",
+    "result": "PASS",
+    "details": {
+      "status": 200,
+      "body": "see captured response"
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "httpRecord": 28,
+      "predicate": "HTTP status and JSON body code equal the expected status; see actual response and probeRuntime.py api()"
+    }
+  },
+  {
+    "step": 57,
+    "name": "full settings object survives restart",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 162,
+      "predicate": "reopened_settings == settings"
+    }
+  },
+  {
+    "step": 58,
+    "name": "same-build restart preserves initialized markers",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 163,
+      "predicate": "all(((data / name / 'initialized').read_text() == value for name, value in markers.items()))"
+    }
+  },
+  {
+    "step": 59,
+    "name": "same-build restart preserves custom materials",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 164,
+      "predicate": "all((p.read_bytes() == value for p, value in canaries.items()))"
+    }
+  },
+  {
+    "step": 60,
+    "name": "same-build restart preserves local tool modification",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 165,
+      "predicate": "modified_tool.read_bytes() == modified"
+    }
+  },
+  {
+    "step": 61,
+    "name": "startup and tested API calls attempted no guarded outbound requests",
+    "result": "PASS",
+    "details": null,
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "sourceLine": 166,
+      "predicate": "all(('\"event\":\"blockedOutbound\"' not in (OUT / (p['tag'] + '.log')).read_text(errors='replace') for p in processes))"
+    }
+  },
+  {
+    "step": 62,
+    "name": "final cleanup process stopped and port 3000 released",
+    "result": "PASS",
+    "details": {
+      "pid": 30,
+      "exitCode": -15
+    },
+    "expectedPredicateResult": true,
+    "actualPredicateResult": true,
+    "assertion": {
+      "predicate": "Own child has exited; TCP connect to 127.0.0.1:3000 fails."
+    }
+  }
+]

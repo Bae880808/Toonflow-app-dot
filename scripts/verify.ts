@@ -81,10 +81,13 @@ async function main() {
       command(process.execPath, ["run", "--cwd", "apps/server", "routes"], 120000, env);
       git(["diff", "--exit-code", "--", "apps/server/src/router.ts"]);
     }
-    requireCondition(git(["status", "--porcelain=v1", "--untracked-files=all", "--ignore-submodules=none"]) === "", "Checks changed the candidate tree");
-    metadata.completed = "37 core workspaces, providers/tests types, fixed 17 tests, standalone build and artifact presence";
+    const candidateStatus = git(["status", "--porcelain=v1", "--untracked-files=all", "--ignore-submodules=none"]);
+    const changedPaths = [...git(["diff", "--name-only", "-z", "HEAD", "--"]).split("\0"), ...git(["ls-files", "--others", "--exclude-standard", "-z"]).split("\0")].filter(Boolean);
+    metadata.candidateChanges = changedPaths.map(path => /^[A-Za-z0-9_.\/-]+$/.test(path) && !path.includes("..") ? path : `redacted:${createHash("sha256").update(path).digest("hex")}`);
+    requireCondition(candidateStatus === "", "Checks changed the candidate tree");
+    metadata.completed = "37 core workspaces, providers/tests types, fixed 19 tests, standalone build and artifact presence";
     // No self-signed approval switch. These omitted acceptance paths remain visible, not silently skipped.
-    blocked.push("Required core coverage remains unimplemented: symlink escape, HTTP authorization/invalid request paths, provider timeout, built-server/browser persistence path");
+    blocked.push("Required core coverage remains unimplemented: symlink escape, HTTP authorization/invalid request paths, built-server/browser persistence path");
     blocked.push("Human review required: complete UI evidence and exact dev integration candidate; build/artifact presence is not runtime verification");
     if (options.profile !== "core") blocked.push(`${options.profile} installation/runtime profile is not implemented`);
     for (const check of additionalChecks(changed)) blocked.push(`Additional impact validation required: ${check}`);

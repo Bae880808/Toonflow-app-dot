@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, spyOn, test } from "bun:test";
 import metaso from "@toonflow/providers/media/metaso";
 import type { Provider } from "@toonflow/providers";
 
@@ -67,4 +67,56 @@ test("provider fixture cancellation terminates pending polling", async () => {
   }, "fixture-not-a-real-key", controller.signal);
   await expect(provider.generateVideo!.call(context, request)).rejects.toThrow("fixture cancelled");
   expect(calls).toBe(2);
+});
+
+test("provider fixture propagates its deadline to an outstanding submission", async () => {
+  const deadline = new AbortController();
+  const timeoutError = new DOMException("fixture deadline exceeded", "TimeoutError");
+  const timeout = spyOn(AbortSignal, "timeout").mockReturnValue(deadline.signal);
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  let calls = 0;
+  let transportSignal: AbortSignal | null | undefined;
+  const context = fixtureContext(async (_input, init) => {
+    calls++;
+    transportSignal = init?.signal;
+    if (!transportSignal) throw new Error("provider did not pass its deadline to transport");
+    transportSignal.throwIfAborted();
+    return new Promise<Response>((_resolve, reject) => {
+      transportSignal!.addEventListener("abort", () => reject(transportSignal!.reason), { once: true });
+      // Accelerate only the fixture deadline, after the transport is listening.
+      timer = setTimeout(() => deadline.abort(timeoutError), 0);
+    });
+  });
+  try {
+    await expect(provider.generateVideo!.call(context, request)).rejects.toMatchObject({ name: "TimeoutError" });
+    expect(timeout).toHaveBeenCalledTimes(1);
+    expect(timeout).toHaveBeenCalledWith(600_000);
+    expect(transportSignal?.aborted).toBe(true);
+    expect(transportSignal?.reason).toBe(timeoutError);
+    expect(calls).toBe(1);
+  } finally { clearTimeout(timer); timeout.mockRestore(); }
+});
+
+test("provider fixture deadline interrupts pending polling without another request", async () => {
+  const deadline = new AbortController();
+  const timeoutError = new DOMException("fixture deadline exceeded", "TimeoutError");
+  const timeout = spyOn(AbortSignal, "timeout").mockReturnValue(deadline.signal);
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const signals: (AbortSignal | null | undefined)[] = [];
+  const context = fixtureContext(async (_input, init) => {
+    signals.push(init?.signal);
+    // Run after the pending response has entered the provider's polling wait.
+    if (signals.length === 2) timer = setTimeout(() => deadline.abort(timeoutError), 0);
+    return Response.json(signals.length === 1 ? { task_id: "fixtureTask" } : { task: { status: "pending" } });
+  });
+  try {
+    await expect(provider.generateVideo!.call(context, request)).rejects.toMatchObject({ name: "TimeoutError" });
+    expect(timeout).toHaveBeenCalledTimes(1);
+    expect(timeout).toHaveBeenCalledWith(600_000);
+    expect(signals).toHaveLength(2);
+    expect(signals[0]).toBeInstanceOf(AbortSignal);
+    expect(signals[1]).toBe(signals[0]);
+    expect(signals[1]?.aborted).toBe(true);
+    expect(signals[1]?.reason).toBe(timeoutError);
+  } finally { clearTimeout(timer); timeout.mockRestore(); }
 });
