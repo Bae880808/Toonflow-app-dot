@@ -65,6 +65,7 @@ async function main() {
     for (const workspace of coreWorkspaces) command(process.execPath, ["run", "--cwd", workspace, "typecheck"], 120000, env);
     command(process.execPath, ["node_modules/typescript/bin/tsc", "-p", "packages/providers/tsconfig.json", "--noEmit"], 120000, env);
     command(process.execPath, ["node_modules/typescript/bin/tsc", "-p", "tests/tsconfig.json", "--noEmit"], 120000, env);
+    command(process.execPath, ["node_modules/typescript/bin/tsc", "-p", "tests/browserTsconfig.json", "--noEmit"], 120000, env);
     for (const test of fixedTests) {
       const output = command(process.execPath, ["test", `./${test.path.slice("tests/".length)}`], 120000, env, resolve(root, "tests"));
       if (!validateTestReport(output, test.count)) throw new Error(`Test count/report mismatch: ${test.path}`);
@@ -79,6 +80,8 @@ async function main() {
     }
     const runtimeOutput = command(process.execPath, ["test", "./tests/builtServer.test.ts"], 180000, env);
     if (!validateTestReport(runtimeOutput, 2)) throw new Error("Built-server test count/report mismatch: expected one guard check and one HTTP lifecycle test");
+    const browserOutput = command(process.execPath, ["test", "./tests/browserPath.test.ts"], 240000, env);
+    if (!validateTestReport(browserOutput, 1)) throw new Error("Browser path test count/report mismatch: expected one complete UI path");
     if (changed.some(path => path.startsWith("apps/server/src/routes/"))) {
       command(process.execPath, ["run", "--cwd", "apps/server", "routes"], 120000, env);
       git(["diff", "--exit-code", "--", "apps/server/src/router.ts"]);
@@ -87,9 +90,8 @@ async function main() {
     const changedPaths = [...git(["diff", "--name-only", "-z", "HEAD", "--"]).split("\0"), ...git(["ls-files", "--others", "--exclude-standard", "-z"]).split("\0")].filter(Boolean);
     metadata.candidateChanges = changedPaths.map(path => /^[A-Za-z0-9_.\/-]+$/.test(path) && !path.includes("..") ? path : `redacted:${createHash("sha256").update(path).digest("hex")}`);
     requireCondition(candidateStatus === "", "Checks changed the candidate tree");
-    metadata.completed = "37 core workspaces, providers/tests types, fixed 20 behavior tests, standalone build/artifacts, one runtime guard check and one built-server HTTP lifecycle test";
+    metadata.completed = "37 core workspaces, providers/tests types, fixed 20 behavior tests, standalone build/artifacts, one runtime guard check and one built-server HTTP lifecycle test and one real browser save/reopen path";
     // No self-signed approval switch. These omitted acceptance paths remain visible, not silently skipped.
-    blocked.push("Required core coverage remains unimplemented in the automated gate: browser node editing, save and reopen path");
     blocked.push("Human review required: complete UI evidence and exact dev integration candidate; build/artifact presence is not runtime verification");
     if (options.profile !== "core") blocked.push(`${options.profile} installation/runtime profile is not implemented`);
     for (const check of additionalChecks(changed)) blocked.push(`Additional impact validation required: ${check}`);

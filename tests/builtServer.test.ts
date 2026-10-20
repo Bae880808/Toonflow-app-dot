@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { mkdir, mkdtemp, readFile, readdir, rm, symlink, writeAtomic } from "@toonflow/file";
+import { mkdir, mkdtemp, readFile, readdir, realpath, rm, symlink, writeAtomic } from "@toonflow/file";
 import { createHash } from "node:crypto";
 import { createServer } from "node:net";
 import { tmpdir } from "node:os";
@@ -51,7 +51,7 @@ async function cleanup(finish: () => Promise<void>, directory: string, originalF
 }
 
 test("runtime guard forces loopback and rejects non-loopback fetch and sockets before IO", async () => {
-  const home = await mkdtemp(join(tmpdir(), "toonflowGuard"));
+  const home = await realpath(await mkdtemp(join(tmpdir(), "toonflowGuard")));
   const source = `
     import http from 'node:http'; import net from 'node:net'; import https from 'node:https';
     let escaped = 0;
@@ -96,7 +96,7 @@ test("runtime guard forces loopback and rejects non-loopback fetch and sockets b
 }, 20_000);
 
 test("exact built server serves assets, initializes plugins and enforces persistent workspace HTTP boundaries", async () => {
-  const temporary = await mkdtemp(join(tmpdir(), "toonflowBuiltHttp"));
+  const temporary = await realpath(await mkdtemp(join(tmpdir(), "toonflowBuiltHttp")));
   const data = join(temporary, "data");
   const home = join(temporary, "home");
   await mkdir(home);

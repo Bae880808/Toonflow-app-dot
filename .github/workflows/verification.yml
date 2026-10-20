@@ -48,8 +48,17 @@ jobs:
       # No SDK programs or installer fallback. Type resources do not verify desktop runtime.
       - name: Run complete candidate gate without substituting bootstrap success
         env:
+          TOONFLOW_BROWSER_EVIDENCE_DIR: ${{ runner.temp }}/toonflowBrowserEvidence
           verificationBase: ${{ github.event.pull_request.base.sha || github.sha }}
           verificationHead: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           bun scripts/verify.ts --profile core --base $env:verificationBase --head $env:verificationHead
           exit $LASTEXITCODE
+      - name: Preserve complete browser path evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: browser-path-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/toonflowBrowserEvidence
+          if-no-files-found: error
+          retention-days: 7

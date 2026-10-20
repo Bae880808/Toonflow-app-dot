@@ -18,11 +18,12 @@ bun scripts/verify.ts --profile core --base <完整旧SHA> --head <完整候选S
 
 1. 完整 SHA、祖先关系、干净工作树、diff 空白/冲突检查；固定 42 个 workspace 与 glob 清单，变更即阻塞。
 2. Bun 1.3.14、Windows x64 首次 core 主机、既有依赖及共享 SDK 配置类型前置检查。准备步骤必须单独审阅，本入口不自动执行。
-3. 固定 37 个 core workspace 的现有 typecheck；providers 和新增测试各自使用现有 TypeScript 编译器检查。desktop 不在此类型检查范围。
+3. 固定 37 个 core workspace 的现有 typecheck；providers 和新增测试各自使用现有 TypeScript 编译器检查。浏览器测试单独继承同一 strict 基础配置，避免 DOM 与 Bun 的全局流类型互相污染；不放宽编译选项。desktop 不在此类型检查范围。
 4. 逐文件运行 Bun 原生测试，固定文件及测试数量，拒绝缺失、新增未分类、零测试、skip、todo、失败及未知报告格式。
 5. 既有 build:server；检查 Server/Web/MCP 文件非空，以及 nodes/tools/ext/providers/skills 目录非空。随后固定运行 tests/builtServer.test.ts 的 2 项检查：安全适配器自检与真实构建服务 HTTP 生命周期。检查首页/静态资源字节、插件初始化、合法及非法请求、冲突/越界拒绝、保存重开和跨进程持久化。
-6. 路由变更时运行现有 routes 并要求 router.ts 无差异；检查运行后候选工作树仍干净。
-7. 根据改动要求额外平台/界面/人工影响分类，未知运行时代码不自动降级。
+6. 在 Windows 用现有锁定 puppeteer-core 和预装 Chrome 执行固定 1 项真实浏览器路径：首次引导、添加工作区、创建文本节点、两次编辑、退出保存、刷新、重开并核验原文与磁盘画布。只预置关闭遥测的安全设置，不注入页面状态或用 API 替代 UI；没有浏览器下载、no-sandbox 或新增依赖。逐步截图与脱敏日志保存在专用 runner 临时目录，成功或失败均归档。此新增路径尚待实际 CI 运行，不能因代码存在宣称通过。
+7. 路由变更时运行现有 routes 并要求 router.ts 无差异；检查运行后候选工作树仍干净。
+8. 根据改动要求额外平台/界面/人工影响分类，未知运行时代码不自动降级。
 
 固定测试草案：
 - tests/unit/providerFixture.test.ts：8 项，单一提供方的输入输出、缺 key、HTTP/任务错误、取消和截止时间传播；全部内存 transport fixture，不使用真实凭据、不发送网络请求，不等于真实生成。
@@ -35,7 +36,7 @@ bun scripts/verify.ts --profile core --base <完整旧SHA> --head <完整候选S
 
 ## 明确尚未实现/验证
 
-- 浏览器首次入口、工作区、创建/编辑节点、保存重开完整路径，以及真实插件执行（初始化和元数据加载不等于执行）。
+- 新增浏览器路径的实际 Windows CI 结果与逐步证据审阅，以及真实插件执行（初始化和元数据加载不等于执行）。
 - Windows 安装/启动/重启，双架构 macOS 和 Android 真实路径。
 - 当前 dev 精确集成候选验证和维护者对基础设施的审阅。
 
