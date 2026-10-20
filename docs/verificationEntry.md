@@ -44,7 +44,9 @@ bun scripts/verify.ts --profile core --base <完整旧SHA> --head <完整候选S
 
 唯一候选门禁名称：`core acceptance (incomplete baseline blocks)`。Node 自测只是该 job 中的一个步骤，不是可替代 core 的独立通过门禁。固定第三方 Actions 提交，最小 contents:read，不保留 checkout 凭据，不提供密钥，不发布。取消不算通过。
 
-当前 CI 不安装项目依赖、不下载 SDK，所以新 runner 在前置检查处应失败/未验证；这有意展示尚未建立的基线，不能称 CI 已可用。Node/Bun 工具版本准备不等于项目准备。后续审阅需要确定锁定依赖/SDK 的安全准备方式，再补齐所列缺口；本 PR 不改依赖、锁文件或既有工作流。
+CI 使用独立准备步骤 `node scripts/prepareDependencies.ts`，仅执行 `bun install --frozen-lockfile --ignore-scripts`。准备前后对全部受 Git 跟踪的 package.json 与 bun.lock 计算 SHA-256（包含嵌套锁文件），并检查它们与 HEAD 一致；任何变更、文件删除、清单增减、安装失败都会阻断；未忽略且未暂存的新清单或锁文件也会阻断。即使安装失败也检查文件不可变。没有普通安装回退，不禁用完整性校验，不运行生命周期脚本。新增 14 项隔离 Git fixture 自测覆盖这些保护；它们是基础设施测试，不是业务验收。
+
+不下载 SDK、不调用 SDK prepare 或远程安装回退，不改依赖/锁文件或其他既有工作流。缺失 SDK 仍明确失败/未验证；禁用安装脚本后若任何原生组件尚未准备，同样不得跳过相应检查。依赖准备成功不等于业务测试、构建或运行已通过。完整 core 尚有上述覆盖缺口，继续保持 draft。
 
 ## 本次 bootstrap 证据
 
