@@ -1,0 +1,17 @@
+Configuration under test: corrected working-tree configuration
+Node v24.19.0
+Old configuration commit: 5c10068c5157e92b8b22fce215077d17f08ed9d9
+Test SHA-256: b326912f6c85d031fcb5a4ba370d6b3b372ca0fff5feff378a337d5a1061a227
+Command: node --test tests/providerResolution.test.ts
+✔ test resolution preserves public export @toonflow/providers (0.77535ms)
+✔ test resolution preserves public export @toonflow/providers/media/metaso (0.125839ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 124.359433
+
+Exit code: 0

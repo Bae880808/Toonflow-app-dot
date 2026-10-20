@@ -1,5 +1,21 @@
 {
   "extends": "../tsconfig.base.json",
-  "compilerOptions": { "paths": { "@/*": ["../apps/server/src/*"] } },
-  "include": ["unit", "integration", "../packages/providers/types.d.ts"]
+  "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "../apps/server/src/*"
+      ],
+      "@toonflow/providers": [
+        "../packages/providers/index.ts"
+      ],
+      "@toonflow/providers/media/metaso": [
+        "../packages/providers/src/media/metaso.ts"
+      ]
+    }
+  },
+  "include": [
+    "unit",
+    "integration",
+    "../packages/providers/types.d.ts"
+  ]
 }
