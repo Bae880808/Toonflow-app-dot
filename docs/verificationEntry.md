@@ -17,11 +17,11 @@ bun scripts/verify.ts --profile core --base <完整旧SHA> --head <完整候选S
 ## 已接线的固定检查
 
 1. 完整 SHA、祖先关系、干净工作树、diff 空白/冲突检查；固定 42 个 workspace 与 glob 清单，变更即阻塞。
-2. Bun 1.3.14、Windows x64 首次 core 主机、既有依赖及共享 SDK 配置类型前置检查。准备步骤必须单独审阅，本入口不自动执行。
+2. Bun 1.3.14、Linux x64 或 Windows x64 core 主机、既有依赖及共享 SDK 配置类型前置检查。准备步骤必须单独审阅，本入口不自动执行。
 3. 固定 37 个 core workspace 的现有 typecheck；providers 和新增测试各自使用现有 TypeScript 编译器检查。浏览器测试单独继承同一 strict 基础配置，避免 DOM 与 Bun 的全局流类型互相污染；不放宽编译选项。desktop 不在此类型检查范围。
 4. 逐文件运行 Bun 原生测试，固定文件及测试数量，拒绝缺失、新增未分类、零测试、skip、todo、失败及未知报告格式。
 5. 既有 build:server；检查 Server/Web/MCP 文件非空，以及 nodes/tools/ext/providers/skills 目录非空。随后固定运行 tests/builtServer.test.ts 的 2 项检查：安全适配器自检与真实构建服务 HTTP 生命周期。检查首页/静态资源字节、插件初始化、合法及非法请求、冲突/越界拒绝、保存重开和跨进程持久化。
-6. 在 Windows 用现有锁定 puppeteer-core 和预装 Chrome 执行固定 1 项真实浏览器路径：首次引导、添加工作区、创建文本节点、两次编辑、退出保存、刷新、重开并核验原文与磁盘画布。只预置关闭遥测的安全设置，不注入页面状态或用 API 替代 UI；没有浏览器下载、no-sandbox 或新增依赖。逐步截图与脱敏日志保存在专用 runner 临时目录，成功或失败均归档。此新增路径尚待实际 CI 运行，不能因代码存在宣称通过。
+6. 在 Linux/Windows x64 用现有锁定 puppeteer-core 和预装 Chrome/Chromium 执行固定 1 项真实浏览器路径：首次引导、添加工作区、创建文本节点、两次编辑、退出保存、刷新、重开并核验原文与磁盘画布。只预置关闭遥测的安全设置，不注入页面状态或用 API 替代 UI；没有浏览器下载、no-sandbox 或新增依赖。逐步截图与脱敏日志保存在专用 runner 临时目录，成功或失败均归档。此新增路径尚待实际 CI 运行，不能因代码存在宣称通过。
 7. 路由变更时运行现有 routes 并要求 router.ts 无差异；检查运行后候选工作树仍干净。
 8. 根据改动要求额外平台/界面/人工影响分类，未知运行时代码不自动降级。
 
@@ -44,7 +44,7 @@ bun scripts/verify.ts --profile core --base <完整旧SHA> --head <完整候选S
 
 ## CI
 
-唯一候选门禁名称：`core acceptance (incomplete baseline blocks)`。Node 自测只是该 job 中的一个步骤，不是可替代 core 的独立通过门禁。固定第三方 Actions 提交，最小 contents:read，不保留 checkout 凭据，不提供密钥，不发布。取消不算通过。job 级 Git 配置在 checkout 前固定 core.autocrlf=false、core.eol=lf，不改全局持久配置、不清理候选改动。Git 解析只读取 stdout，stderr 警告不伪装成路径；真实非零退出与 dirty status 仍阻塞。
+候选门禁分别标识 `ubuntu-24.04` 与 `windows-2025`，矩阵设置 fail-fast=false，失败不会取消另一平台；任何失败仍保留，不作为自动合并成功。Node 自测只是该 job 中的一个步骤，不是可替代 core 的独立通过门禁。固定第三方 Actions 提交，最小 contents:read，不保留 checkout 凭据，不提供密钥，不发布。取消不算通过。job 级 Git 配置在 checkout 前固定 core.autocrlf=false、core.eol=lf，不改全局持久配置、不清理候选改动。Git 解析只读取 stdout，stderr 警告不伪装成路径；真实非零退出与 dirty status 仍阻塞。
 
 CI 使用独立准备步骤 `node scripts/prepareDependencies.ts`，仅执行 `bun install --frozen-lockfile --ignore-scripts`。准备前后对全部受 Git 跟踪的 package.json 与 bun.lock 计算 SHA-256（包含嵌套锁文件），并检查它们与 HEAD 一致；任何变更、文件删除、清单增减、安装失败都会阻断；未忽略且未暂存的新清单或锁文件也会阻断。即使安装失败也检查文件不可变。没有普通安装回退，不禁用完整性校验，不运行生命周期脚本。新增 14 项隔离 Git fixture 自测覆盖这些保护；它们是基础设施测试，不是业务验收。
 

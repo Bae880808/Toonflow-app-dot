@@ -1,0 +1,44 @@
+✔ unchanged dependency files pass the preparation guard (47.763635ms)
+✔ installer mutation of bun.lock fails the guard (38.697068ms)
+✔ installer mutation of compat/example/bun.lock fails the guard (33.130564ms)
+✔ installer mutation of package.json fails the guard (28.560054ms)
+✔ installer mutation of apps/example/package.json fails the guard (31.715981ms)
+✔ deleting a tracked manifest fails the guard (28.638874ms)
+✔ staging a new manifest fails the inventory guard (28.460468ms)
+✔ dirty dependency input is rejected before installing (23.37897ms)
+✔ installer failure is never converted to success (33.566894ms)
+✔ post-install mutation is checked even when installation fails (28.573034ms)
+✔ new unstaged manifest is rejected after preparation (24.619907ms)
+✔ staged deletion is rejected before installing (21.187686ms)
+✔ untracked manifest input is rejected before installing (22.397416ms)
+✔ staged rename away from manifest name is rejected before installing (22.105224ms)
+(node:16) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Git warnings are not parsed as changed paths and Git logs remain redacted (27.746994ms)
+✔ real changed paths and nonzero Git exits remain visible (27.658401ms)
+✔ non-Git commands retain both output streams for test report validation (63.958854ms)
+✔ workflow checkout uses LF even with a Windows-style global Git configuration (26.94098ms)
+✔ test resolution preserves public export @toonflow/providers (0.975585ms)
+✔ test resolution preserves public export @toonflow/providers/media/metaso (0.13236ms)
+✔ only original allowlisted bytes are written; archive programs are not extracted (13.995722ms)
+✔ archive tampering fails before creating SDK output (6.795545ms)
+✔ archive size mismatch fails (6.161036ms)
+✔ member hash mismatch fails before writing (9.208634ms)
+✔ unsafe member paths are rejected (6.921676ms)
+✔ existing SDK tree is not overwritten (12.453947ms)
+✔ project version mismatch refuses SDK preparation (8.473437ms)
+✔ requires exact commits and rejects unknown or duplicate switches (1.444113ms)
+✔ fixed inventory rejects missing, additional and duplicate entries (0.305983ms)
+✔ accepts only a complete successful Bun test summary (0.71376ms)
+✔ unknown and shared runtime changes require human impact classification (1.198272ms)
+✔ incomplete checks never produce green or automatic merge eligibility (0.23109ms)
+✔ the underlying test runner detects an intentional assertion failure (87.000224ms)
+✔ core accepts Linux and Windows x64 but rejects unsupported hosts (0.368808ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 579.35672

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { parseOptions, sameInventory, validateTestReport, additionalChecks, conclusion, coreWorkspaces } from "../scripts/verificationPlan.ts";
+import { supportsCorePlatform, parseOptions, sameInventory, validateTestReport, additionalChecks, conclusion, coreWorkspaces } from "../scripts/verificationPlan.ts";
 
 const sha = "a".repeat(40);
 const report = " 3 pass\n 0 fail\n 9 expect() calls\nRan 3 tests across 1 file. [5ms]\n";
@@ -36,4 +36,10 @@ test("the underlying test runner detects an intentional assertion failure", () =
   assert.equal(result.error, undefined);
   assert.equal(result.status, 1);
   assert.match(result.stdout + result.stderr, /ERR_ASSERTION/);
+});
+
+test("core accepts Linux and Windows x64 but rejects unsupported hosts", () => {
+  assert.equal(supportsCorePlatform("linux", "x64"), true);
+  assert.equal(supportsCorePlatform("win32", "x64"), true);
+  for (const [platform, arch] of [["darwin", "x64"], ["linux", "arm64"], ["win32", "arm64"], ["unknown", "x64"]]) assert.equal(supportsCorePlatform(platform, arch), false);
 });

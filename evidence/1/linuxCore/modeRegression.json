@@ -1,0 +1,24 @@
+[
+  {
+    "fixture": "old644",
+    "before": "",
+    "installExit": 0,
+    "after": "M packages/mcp/src/stdio.ts",
+    "gitSummary": "mode change 100644 => 100755 packages/mcp/src/stdio.ts",
+    "contentUnchanged": true,
+    "cleanTreeAssertion": false,
+    "stdout": "bun install v1.3.14 (0d9b296a)\n\nChecked 4 installs across 3 packages (no changes) [1.00ms]\n",
+    "stderr": ""
+  },
+  {
+    "fixture": "candidate755",
+    "before": "",
+    "installExit": 0,
+    "after": "",
+    "gitSummary": "",
+    "contentUnchanged": true,
+    "cleanTreeAssertion": true,
+    "stdout": "bun install v1.3.14 (0d9b296a)\n\nChecked 4 installs across 3 packages (no changes) [1.00ms]\n",
+    "stderr": ""
+  }
+]

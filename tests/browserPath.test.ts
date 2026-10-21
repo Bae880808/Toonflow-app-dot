@@ -1,5 +1,6 @@
 /// <reference lib="dom" />
 import { expect, test } from "bun:test";
+import { supportsCorePlatform } from "../scripts/verificationPlan";
 import { existsSync, mkdir, mkdtemp, readFile, realpath, rm, writeAtomic } from "@toonflow/file";
 import { createHash } from "node:crypto";
 import { createServer } from "node:net";
@@ -7,7 +8,7 @@ import { tmpdir } from "node:os";
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import type { Browser, Page } from "../packages/tools/browser/node_modules/puppeteer-core";
 
-// Windows CI only, after build:server. Deliberately fails, rather than skips, elsewhere.
+// Linux/Windows x64 core path, after build:server. Unsupported hosts fail, never skip.
 // Existing locked browser dependency only; this test never installs/downloads a browser.
 // The preload changes listener binding/outbound APIs, not application handlers. Neither
 // it nor Chrome request interception is an OS firewall or desktop/native acceptance.
@@ -82,8 +83,8 @@ async function replaceText(page: Page, selector: string, value: string) {
   await page.keyboard.type(value);
 }
 
-test("Windows browser completes first launch, creates and edits a text node, saves and reopens persisted canvas", async () => {
-  expect(process.platform).toBe("win32");
+test("Core browser completes first launch, creates and edits a text node, saves and reopens persisted canvas", async () => {
+  expect(supportsCorePlatform(process.platform, process.arch)).toBe(true);
   const requestedEvidence = process.env.TOONFLOW_BROWSER_EVIDENCE_DIR;
   if (!requestedEvidence || !isAbsolute(requestedEvidence)) throw new Error("TOONFLOW_BROWSER_EVIDENCE_DIR must be an absolute temporary artifact directory");
   const tempRoot = await realpath(tmpdir());
@@ -125,8 +126,8 @@ test("Windows browser completes first launch, creates and edits a text node, sav
   let puppeteer: typeof import("../packages/tools/browser/node_modules/puppeteer-core");
   let temporary: string;
   try {
-    const installed = ["C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"].find(existsSync);
-    if (!installed) throw new Error("Official preinstalled Chrome missing; no installation or download is permitted");
+    const installed = (process.platform === "win32" ? ["C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"] : ["/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium"]).find(existsSync);
+    if (!installed) throw new Error("Preinstalled Chrome/Chromium missing; no installation or download is permitted");
     executablePath = installed;
     puppeteer = await import(Bun.resolveSync("puppeteer-core", join(root, "packages/tools/browser")));
     const owner = JSON.parse(await readFile(join(root, "packages/tools/browser/package.json"), "utf8"));
@@ -188,7 +189,12 @@ test("Windows browser completes first launch, creates and edits a text node, sav
     await clickText(page!, ".el-dialog button", "退出项目");
     await page!.waitForSelector(".home", { visible: true });
   }
+  async function closeConversation() {
+    const close = await page!.$('button[aria-label="关闭对话"]');
+    if (close) { try { await close.click(); } finally { await close.dispose(); } }
+  }
   async function editText(value: string) {
+    await closeConversation();
     await click(page!, ".vue-flow__node .editButton");
     if (!await page!.$eval(".nodeMarkdownEditor", element => !!element.querySelector("textarea")).catch(() => false))
       await clickText(page!, ".nodeMarkdownEditor .editorToolbar button", "原文");
@@ -224,13 +230,15 @@ test("Windows browser completes first launch, creates and edits a text node, sav
       .map(line => JSON.parse(line.slice("RUNTIME_GUARD ".length))).filter(event => event.event === "listenerAddress");
     expect(addresses.length).toBeGreaterThanOrEqual(2);
     expect(addresses.every(event => event.detail.address === "127.0.0.1")).toBe(true);
-    await checkpoint("Windows known folder probe");
     const chromeEnvironment = cleanEnvironment(home);
+    if (process.platform === "win32") {
+    await checkpoint("Windows known folder probe");
     const powershell = join(chromeEnvironment.SystemRoot!, "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
     async function probeLocalAppData(env: Record<string, string>) {
       // Same API and flags as Chromium base_paths_win.cc. Read-only, no registry
       // changes, policy overrides, real user profile access or downloads.
       const script = `$ErrorActionPreference = 'Stop'
+[Console]::Error.WriteLine('PROBE process entered')
 Add-Type -TypeDefinition @'
 using System;
 using System.Text;
@@ -240,23 +248,46 @@ public static class ToonflowKnownFolderProbe {
   public static extern int SHGetFolderPathW(IntPtr owner, int folder, IntPtr token, uint flags, StringBuilder path);
 }
 '@
+[Console]::Error.WriteLine('PROBE type loaded')
 $path = New-Object System.Text.StringBuilder 32768
+[Console]::Error.WriteLine('PROBE native call entering')
 $result = [ToonflowKnownFolderProbe]::SHGetFolderPathW([IntPtr]::Zero, 0x1c, [IntPtr]::Zero, 0, $path)
-@{ hresult = $result; path = $path.ToString() } | ConvertTo-Json -Compress`;
+[Console]::Error.WriteLine('PROBE native call returned')
+@{ hresult = $result; path = $path.ToString() } | ConvertTo-Json -Compress
+[Console]::Error.WriteLine('PROBE output written')`;
       const probe = Bun.spawn([powershell, "-NoProfile", "-NonInteractive", "-Command", script], {
         cwd: temporary, env, stdin: "ignore", stdout: "pipe", stderr: "pipe",
       });
+      let stdout = "", stderr = "";
+      let exited = false, stdoutEnded = false, stderrEnded = false;
+      const readProbe = async (stream: ReadableStream<Uint8Array>, channel: "stdout" | "stderr") => {
+        for await (const chunk of stream) {
+          if (channel === "stdout") stdout += Buffer.from(chunk).toString();
+          else stderr += Buffer.from(chunk).toString();
+          if (stdout.length + stderr.length > 65536) { probe.kill("SIGKILL"); throw new Error("Excessive probe output"); }
+        }
+        if (channel === "stdout") stdoutEnded = true; else stderrEnded = true;
+      };
+      const output = [readProbe(probe.stdout, "stdout"), readProbe(probe.stderr, "stderr")];
       try {
-        const [code, stdout, stderr] = await bounded(Promise.all([
-          probe.exited, new Response(probe.stdout).text(), new Response(probe.stderr).text(),
+        const [code] = await bounded(Promise.all([
+          probe.exited.then(code => { exited = true; return code; }), ...output,
         ]), "Windows known folder probe", 10_000);
         if (code !== 0) throw new Error(`KnownFolder probe exit=${code}; stderr SHA-256=${hash(Buffer.from(stderr))}`);
         const result = JSON.parse(stdout.replace(/^\uFEFF/, "")) as { hresult: number; path: string };
         if (!Number.isInteger(result.hresult) || typeof result.path !== "string") throw new Error("Invalid KnownFolder probe result");
         return result;
       } finally {
-        if (probe.exitCode === null) probe.kill("SIGKILL");
-        await bounded(probe.exited, "Windows known folder probe cleanup", 3_000);
+        try {
+        await writeAtomic(join(evidence, "knownFolderProbeProgress.json"), JSON.stringify({
+          exited, stdoutEnded, stderrEnded, exitCode: probe.exitCode,
+          stages: stderr.split(/\r?\n/).filter(line => /^PROBE /.test(line)),
+          stdoutSha256: hash(Buffer.from(stdout)), stderrSha256: hash(Buffer.from(stderr)),
+        }, null, 2));
+        } finally {
+          if (probe.exitCode === null) probe.kill("SIGKILL");
+          await bounded(Promise.all([probe.exited, ...output]), "Windows known folder probe cleanup", 3_000);
+        }
       }
     }
     const beforeKnownFolder = await probeLocalAppData(chromeEnvironment);
@@ -280,6 +311,7 @@ $result = [ToonflowKnownFolderProbe]::SHGetFolderPathW([IntPtr]::Zero, 0x1c, [In
     // Reject a native-profile result before resolving or reading that path.
     expect(withinIsolatedHome(afterKnownFolder.path)).toBe(true);
     expect(await realpath(afterKnownFolder.path)).toBe(await realpath(localAppData));
+    }
     await checkpoint("Chrome arguments");
     // Windows Bun cannot be assumed to implement Chrome's extra fd 3/4 pipe
     // transport. Own the process immediately and connect over an explicit loopback
@@ -388,6 +420,7 @@ $result = [ToonflowKnownFolderProbe]::SHGetFolderPathW([IntPtr]::Zero, 0x1c, [In
     await click(page, `button[aria-label="打开项目 ${workspaceName}"]`);
     await page.waitForSelector('.vue-flow__node [aria-label="文本内容"]', { visible: true });
     expect(await page.$eval('.vue-flow__node [aria-label="文本内容"]', element => element.textContent)).toContain("Browser acceptance fixture");
+    await closeConversation();
     await click(page, ".vue-flow__node .editButton");
     await clickText(page, ".nodeMarkdownEditor .editorToolbar button", "原文");
     expect(await page.$eval('textarea[aria-label="编辑文本内容"]', element => (element as HTMLTextAreaElement).value)).toBe(fixture);

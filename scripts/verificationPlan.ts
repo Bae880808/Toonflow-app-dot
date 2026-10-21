@@ -56,3 +56,7 @@ export function additionalChecks(paths: string[]) {
 export function conclusion(failed: boolean, blocked: string[]) {
   return { result: failed ? "fail" : blocked.length ? "notVerified" : "automatedChecksPassed", exitCode: failed ? 1 : blocked.length ? 2 : 0, autoMergeEligible: false };
 }
+
+export function supportsCorePlatform(platform: string, arch: string) {
+  return ["linux", "win32"].includes(platform) && arch === "x64";
+}

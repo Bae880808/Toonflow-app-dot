@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { additionalChecks, conclusion, coreWorkspaces, expectedWorkspaces, fixedTests, parseOptions, sameInventory, validateTestReport } from "./verificationPlan.ts";
+import { supportsCorePlatform, additionalChecks, conclusion, coreWorkspaces, expectedWorkspaces, fixedTests, parseOptions, sameInventory, validateTestReport } from "./verificationPlan.ts";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const commands: { command: string[]; exitCode: number | null; output: string; cwd: string }[] = [];
@@ -50,7 +50,7 @@ async function main() {
   requireCondition(sameInventory(testPaths, fixedTests.map(test => test.path)), "Missing or unclassified test files");
   for (const workspace of coreWorkspaces) requireCondition(typeof JSON.parse(trackedText(`${workspace}/package.json`)).scripts?.typecheck === "string", `Missing typecheck script: ${workspace}`);
   requireCondition(typeof manifest.scripts?.["build:server"] === "string", "Missing standalone server build command");
-  requireCondition(process.platform === "win32" && process.arch === "x64", "First approved core baseline requires Windows x64; other hosts are not substituted");
+  requireCondition(supportsCorePlatform(process.platform, process.arch), "Core requires Linux x64 or Windows x64; other hosts are not substituted");
   if (blocked.length) return;
 
   // Environment preparation is separate. No package installation, SDK download, credentials or provider requests.
