@@ -1,0 +1,1161 @@
+[
+  {
+    "label": "homepage",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Accept-Ranges": "bytes",
+        "Cache-Control": "public, max-age=0",
+        "Last-Modified": "Tue, 20 Oct 2026 11:33:57 GMT",
+        "ETag": "W/\"182b-1a15916eda5\"",
+        "Content-Type": "text/html; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "6187",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 6187,
+      "sha256": "a60273433d9e408bb0e7b8ec924bf57021ae60d54efab3783429f8e562c991f9",
+      "bodyPublication": "Exact raw bytes retained privately; hash and size above refer to original body.",
+      "comparedToBuiltFile": "build/web/index.html",
+      "byteIdenticalToBuiltFile": true
+    },
+    "id": 1,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true,
+    "expectedBodySha256": "a60273433d9e408bb0e7b8ec924bf57021ae60d54efab3783429f8e562c991f9",
+    "actualBodySha256": "a60273433d9e408bb0e7b8ec924bf57021ae60d54efab3783429f8e562c991f9"
+  },
+  {
+    "label": "javascript",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/assets/index-JLUVzAAi.js",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Accept-Ranges": "bytes",
+        "Cache-Control": "public, max-age=0",
+        "Last-Modified": "Tue, 20 Oct 2026 11:33:57 GMT",
+        "ETag": "W/\"52b12-1a15916ed7a\"",
+        "Content-Type": "text/javascript; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "338706",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 338706,
+      "sha256": "75d5a5d704b1d8c63a8345a1699c9daefed8fa595af3fc1186fde6c77243ac49",
+      "bodyPublication": "Exact raw bytes retained privately; hash and size above refer to original body.",
+      "comparedToBuiltFile": "build/web/assets/index-JLUVzAAi.js",
+      "byteIdenticalToBuiltFile": true
+    },
+    "id": 2,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true,
+    "expectedBodySha256": "75d5a5d704b1d8c63a8345a1699c9daefed8fa595af3fc1186fde6c77243ac49",
+    "actualBodySha256": "75d5a5d704b1d8c63a8345a1699c9daefed8fa595af3fc1186fde6c77243ac49"
+  },
+  {
+    "label": "stylesheet",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/assets/css-C3tX10zG.css",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Accept-Ranges": "bytes",
+        "Cache-Control": "public, max-age=0",
+        "Last-Modified": "Tue, 20 Oct 2026 11:33:57 GMT",
+        "ETag": "W/\"1ec3-1a15916ed98\"",
+        "Content-Type": "text/css; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "7875",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 7875,
+      "sha256": "05b3696f2a5b7a492856171721dbc67102fba4b1c87d777e7d55b2dbec7816d1",
+      "bodyPublication": "Exact raw bytes retained privately; hash and size above refer to original body.",
+      "comparedToBuiltFile": "build/web/assets/css-C3tX10zG.css",
+      "byteIdenticalToBuiltFile": true
+    },
+    "id": 3,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true,
+    "expectedBodySha256": "05b3696f2a5b7a492856171721dbc67102fba4b1c87d777e7d55b2dbec7816d1",
+    "actualBodySha256": "05b3696f2a5b7a492856171721dbc67102fba4b1c87d777e7d55b2dbec7816d1"
+  },
+  {
+    "label": "node metadata API",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/nodes/get",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "13290",
+        "ETag": "W/\"33ea-PnLKV/pfr57/uEkIN12UbENKD+s\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 13290,
+      "sha256": "5f8315128e99b10a250eab008aa5d5419ec6ab8846090220b9c999f98fd7ff54",
+      "bodySummary": {
+        "code": 200,
+        "count": 8,
+        "entries": [
+          {
+            "name": "audioGenerationNode",
+            "loadError": ""
+          },
+          {
+            "name": "audioNode",
+            "loadError": ""
+          },
+          {
+            "name": "director3dNode",
+            "loadError": ""
+          },
+          {
+            "name": "imageGenerationNode",
+            "loadError": ""
+          },
+          {
+            "name": "imageNode",
+            "loadError": ""
+          },
+          {
+            "name": "textNode",
+            "loadError": ""
+          },
+          {
+            "name": "videoGenerationNode",
+            "loadError": ""
+          },
+          {
+            "name": "videoNode",
+            "loadError": ""
+          }
+        ]
+      },
+      "bodyPublication": "Raw bundled metadata omitted because it contains external references; exact original bytes, size and SHA-256 retained privately."
+    },
+    "id": 4,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "tool metadata API",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/tools/get",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "34679",
+        "ETag": "W/\"8777-DkqGjvepudGik7jjXQUkjOdk1ek\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 34679,
+      "sha256": "28d5df869b05bf86c90adc01937e585bff82b6626b09f26c683a98b65820aed0",
+      "bodySummary": {
+        "code": 200,
+        "count": 10,
+        "entries": [
+          {
+            "name": "askUser",
+            "loadError": ""
+          },
+          {
+            "name": "assetOperator",
+            "loadError": ""
+          },
+          {
+            "name": "browser",
+            "loadError": ""
+          },
+          {
+            "name": "canvas",
+            "loadError": ""
+          },
+          {
+            "name": "ffmpeg",
+            "loadError": ""
+          },
+          {
+            "name": "mediaGeneration",
+            "loadError": ""
+          },
+          {
+            "name": "skillOperator",
+            "loadError": ""
+          },
+          {
+            "name": "webFetch",
+            "loadError": ""
+          },
+          {
+            "name": "webSearch",
+            "loadError": ""
+          },
+          {
+            "name": "workspace",
+            "loadError": ""
+          }
+        ]
+      },
+      "bodyPublication": "Raw bundled metadata omitted because it contains external references; exact original bytes, size and SHA-256 retained privately."
+    },
+    "id": 5,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "extension metadata API",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/ext/list",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "8136",
+        "ETag": "W/\"1fc8-pLTIUDKAR6pVjmDPVZpPnOGXxMM\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 8136,
+      "sha256": "a5975011a71781c179971c1fa6c043a1c343c4bb6e4cd8d05f9025442cb54246",
+      "bodySummary": {
+        "code": 200,
+        "count": 5,
+        "entries": [
+          {
+            "name": "ext-canvasNode",
+            "loadError": ""
+          },
+          {
+            "name": "ext-image",
+            "loadError": ""
+          },
+          {
+            "name": "ext-md",
+            "loadError": ""
+          },
+          {
+            "name": "ext-media",
+            "loadError": ""
+          },
+          {
+            "name": "ext-txt",
+            "loadError": ""
+          }
+        ]
+      },
+      "bodyPublication": "Raw bundled metadata omitted because it contains external references; exact original bytes, size and SHA-256 retained privately."
+    },
+    "id": 6,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "list server workspaces",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/workspaces/list",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "145",
+        "ETag": "W/\"91-3mE2y32m/O60cq/gfj3Fjr7zvYI\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 145,
+      "sha256": "e059ffe3a3ba6591e31513a9c82f74d6bb0843a4c31f34d6bd75c96cb7afdd10",
+      "bodyUtf8": "{\"code\":200,\"data\":{\"path\":\"\",\"absolutePath\":\"<RUN>/data/workspaces\",\"parent\":null,\"directories\":[]},\"message\":\"Success\"}",
+      "bodyPublication": "Displayed text substitutes private filesystem roots; size and SHA-256 above refer to original unredacted response bytes."
+    },
+    "id": 7,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "create test workspace through API",
+    "request": {
+      "method": "POST",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/mkdir",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/json"
+      },
+      "bodyUtf8": "{\"directory\": \"<RUN>/data/workspaces\", \"path\": \"runtimeProbe\"}",
+      "originalBodyBytes": 86,
+      "originalBodySha256": "9673bccdddfc351218b5ecfe3ef1dc63e6a04c47cc9b44a57cd6e47f41ff5175"
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "44",
+        "ETag": "W/\"2c-syfz4aPZ6dt6AMuBtFQkq7CEzds\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 44,
+      "sha256": "12c5c8f8cfde36d93bc6aa81ed3841b563aeb47d2a0c8d97de25478bfdc23b3e",
+      "bodyUtf8": "{\"code\":200,\"data\":null,\"message\":\"Success\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 8,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "open allowed test workspace",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/workspaces/check?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "114",
+        "ETag": "W/\"72-Myjw4Pjv3StdHL3K7tvAwXSdfz4\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 114,
+      "sha256": "2005998a252e9d7e109b7981eb1b264ab8fede4c7f006302fd24113c89fe9503",
+      "bodyUtf8": "{\"code\":200,\"data\":{\"directory\":\"<RUN>/data/workspaces/runtimeProbe\"},\"message\":\"Success\"}",
+      "bodyPublication": "Displayed text substitutes private filesystem roots; size and SHA-256 above refer to original unredacted response bytes."
+    },
+    "id": 9,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "write exact UTF-8 fixture",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=%E9%AA%8C%E6%94%B6%E6%96%87%E6%A1%A3.txt&exclusive=true",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "Toonflow runtime persistence\n中文内容：保存后重新打开。\nUTF-8: 🌱\n",
+      "originalBodyBytes": 81,
+      "originalBodySha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea"
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "44",
+        "ETag": "W/\"2c-syfz4aPZ6dt6AMuBtFQkq7CEzds\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 44,
+      "sha256": "12c5c8f8cfde36d93bc6aa81ed3841b563aeb47d2a0c8d97de25478bfdc23b3e",
+      "bodyUtf8": "{\"code\":200,\"data\":null,\"message\":\"Success\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 10,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true,
+    "expectedPersistedFileSha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+    "actualPersistedFileSha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+    "persistedFileEvidence": "Corresponding byte-equality check in checks.json; request or rejection response hash is distinct from persisted file hash."
+  },
+  {
+    "label": "reopen raw document",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/read?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=%E9%AA%8C%E6%94%B6%E6%96%87%E6%A1%A3.txt",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Accept-Ranges": "bytes",
+        "Last-Modified": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "ETag": "W/\"51-1a1591c8947\"",
+        "Content-Type": "text/plain; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "81",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 81,
+      "sha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+      "bodyUtf8": "Toonflow runtime persistence\n中文内容：保存后重新打开。\nUTF-8: 🌱\n",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 11,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true,
+    "expectedBodySha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+    "actualBodySha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea"
+  },
+  {
+    "label": "reopen document snapshot",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/read?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=%E9%AA%8C%E6%94%B6%E6%96%87%E6%A1%A3.txt&snapshot=true",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "232",
+        "ETag": "W/\"e8-UbhPsj75Ac5Y5otT/yFOpEnY44U\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 232,
+      "sha256": "c3d7bb6710532f9b0e996ddf69bc2844a6a1e5f90045e0473a741414e8f39199",
+      "bodyUtf8": "{\"code\":200,\"data\":{\"text\":\"Toonflow runtime persistence\\n中文内容：保存后重新打开。\\nUTF-8: 🌱\\n\",\"encoding\":\"utf-8\",\"revision\":\"eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea\"},\"message\":\"Success\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 12,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "exclusive write rejects existing target",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=%E9%AA%8C%E6%94%B6%E6%96%87%E6%A1%A3.txt&exclusive=true",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "UNWANTED REPLACEMENT",
+      "originalBodyBytes": 20,
+      "originalBodySha256": "6897c4ee22f53148f1353252d75c20ab40521fe4c13bfc4e6393037d73c87a8b"
+    },
+    "response": {
+      "status": 409,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "144",
+        "ETag": "W/\"90-H4USRT6/ABC3sS13WZNf3+/uXio\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 144,
+      "sha256": "d7ceee06cb1fc5709decfb426c04a14c82c49ffa0bff0901e14acd6e95c80986",
+      "bodyUtf8": "{\"code\":409,\"data\":{\"code\":\"EEXIST\"},\"message\":\"This name is already occupied, please change it. The original content will not be overwritten.\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 13,
+    "expectedStatus": 409,
+    "actualStatus": 409,
+    "statusMatchesExpectation": true,
+    "expectedPersistedFileSha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+    "actualPersistedFileSha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+    "persistedFileEvidence": "Corresponding byte-equality check in checks.json; request or rejection response hash is distinct from persisted file hash."
+  },
+  {
+    "label": "stale revision rejects write",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=%E9%AA%8C%E6%94%B6%E6%96%87%E6%A1%A3.txt&expectedRevision=0000000000000000000000000000000000000000000000000000000000000000",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "UNWANTED STALE REPLACEMENT",
+      "originalBodyBytes": 26,
+      "originalBodySha256": "4e4cee8503247158458be48d4156a29a29f80c1ce56678d214f761b64664f289"
+    },
+    "response": {
+      "status": 409,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "173",
+        "ETag": "W/\"ad-QE3nsSINO4lOwhmV91eLGTz7fOU\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 173,
+      "sha256": "0e79ca74e10216856549edf00953fa8d35733a7d7ca90b3980dc5f3fd64c27de",
+      "bodyUtf8": "{\"code\":409,\"data\":{\"code\":\"ESTALE\"},\"message\":\"The file was modified in another editor. Your current changes have been retained. Reload the version on disk or save a copy\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 14,
+    "expectedStatus": 409,
+    "actualStatus": 409,
+    "statusMatchesExpectation": true,
+    "expectedPersistedFileSha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+    "actualPersistedFileSha256": "eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+    "persistedFileEvidence": "Corresponding byte-equality check in checks.json; request or rejection response hash is distinct from persisted file hash."
+  },
+  {
+    "label": "matching revision updates content",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=%E9%AA%8C%E6%94%B6%E6%96%87%E6%A1%A3.txt&expectedRevision=eaf52035825e66c8b87828c44d4027adc974c5d0968a40340839261fbbda5fea",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "Toonflow runtime persistence\n中文内容：保存后重新打开。\nUTF-8: 🌱\nRevision-checked update retained.\n",
+      "originalBodyBytes": 115,
+      "originalBodySha256": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1"
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "119",
+        "ETag": "W/\"77-x+OvhQBpyBrw3i6Rg8kD+yb6dLo\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 119,
+      "sha256": "32b54fc0b653b111f5883e3d6ae8be69115596f3176a4e4de8bd4a738ea7a0a2",
+      "bodyUtf8": "{\"code\":200,\"data\":{\"revision\":\"cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1\"},\"message\":\"Success\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 15,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true,
+    "expectedPersistedFileSha256": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1",
+    "actualPersistedFileSha256": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1",
+    "persistedFileEvidence": "Matching revision response and on-disk bytes asserted in check 34."
+  },
+  {
+    "label": "reject parent traversal",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=..%2Fescape.txt",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "UNWANTED ESCAPE",
+      "originalBodyBytes": 15,
+      "originalBodySha256": "6df06b01b113fef2df7a37f8f425b5dcc76dea51608ccb9d96964cd01d696797"
+    },
+    "response": {
+      "status": 400,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "54",
+        "ETag": "W/\"36-9+o/VcObpluxuuH3eMfEMDB8168\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 54,
+      "sha256": "950a04c632721c6f8ac2f31a895e2e521f6473557e6277aaa61decfcda5920b3",
+      "bodyUtf8": "{\"code\":400,\"data\":null,\"message\":\"Invalid file path\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 16,
+    "expectedStatus": 400,
+    "actualStatus": 400,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "reject absolute path",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=%3CRUN%3E%2Foutside%2FabsoluteEscape.txt",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "UNWANTED ESCAPE",
+      "originalBodyBytes": 15,
+      "originalBodySha256": "6df06b01b113fef2df7a37f8f425b5dcc76dea51608ccb9d96964cd01d696797"
+    },
+    "response": {
+      "status": 400,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "54",
+        "ETag": "W/\"36-9+o/VcObpluxuuH3eMfEMDB8168\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 54,
+      "sha256": "950a04c632721c6f8ac2f31a895e2e521f6473557e6277aaa61decfcda5920b3",
+      "bodyUtf8": "{\"code\":400,\"data\":null,\"message\":\"Invalid file path\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 17,
+    "expectedStatus": 400,
+    "actualStatus": 400,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "reject workspace root",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "UNWANTED ESCAPE",
+      "originalBodyBytes": 15,
+      "originalBodySha256": "6df06b01b113fef2df7a37f8f425b5dcc76dea51608ccb9d96964cd01d696797"
+    },
+    "response": {
+      "status": 400,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "79",
+        "ETag": "W/\"4f-3rxU37VKr+cw483+oe+gCelKD+s\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 79,
+      "sha256": "484db51c614b3ca73d0f1615ee17827e01968cb1eba5bb09074e1ddf25e0dcb5",
+      "bodyUtf8": "{\"code\":400,\"data\":null,\"message\":\"Cannot modify the workspace root directory\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 18,
+    "expectedStatus": 400,
+    "actualStatus": 400,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "reject symlink directory escape",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=outsideLink%2Fescape.txt",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "UNWANTED ESCAPE",
+      "originalBodyBytes": 15,
+      "originalBodySha256": "6df06b01b113fef2df7a37f8f425b5dcc76dea51608ccb9d96964cd01d696797"
+    },
+    "response": {
+      "status": 403,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "89",
+        "ETag": "W/\"59-y/vuD/T7IJcZkBf9j1QZi0hIkDE\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 89,
+      "sha256": "a5773713d7ab932d47a80ace2ed550e437c15666d41cfd3cde1bba00d04ba82f",
+      "bodyUtf8": "{\"code\":403,\"data\":null,\"message\":\"File operations are limited to the current workspace\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 19,
+    "expectedStatus": 403,
+    "actualStatus": 403,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "reject symlink file",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=fileLink.txt",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "UNWANTED ESCAPE",
+      "originalBodyBytes": 15,
+      "originalBodySha256": "6df06b01b113fef2df7a37f8f425b5dcc76dea51608ccb9d96964cd01d696797"
+    },
+    "response": {
+      "status": 403,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "78",
+        "ETag": "W/\"4e-SP2Ci35DaAprguR4FJ+7hSZ9tPE\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 78,
+      "sha256": "05a782823f1f81944b6f6a425e849712c35e9b5ddf37e2e940c838e64a9b2f86",
+      "bodyUtf8": "{\"code\":403,\"data\":null,\"message\":\"Cannot operate file through symbolic link\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 20,
+    "expectedStatus": 403,
+    "actualStatus": 403,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "reject outside server workspace",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/write?directory=%3CRUN%3E%2Foutside&path=canary.txt",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/octet-stream"
+      },
+      "bodyUtf8": "UNWANTED OUTSIDE WRITE",
+      "originalBodyBytes": 22,
+      "originalBodySha256": "45814209dfab75218ac10411f4e1e27ae6c0907ef962c9ed02f1668a031050ad"
+    },
+    "response": {
+      "status": 403,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "84",
+        "ETag": "W/\"54-z/cqqBFwpPfIhkAqQ4K3uEklZ1E\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 84,
+      "sha256": "4c05ced9cdf654da91d529dfb9af6da9ce8f945dc1e79d385745e454eaec6647",
+      "bodyUtf8": "{\"code\":403,\"data\":null,\"message\":\"Server deployment can only use server workspace\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 21,
+    "expectedStatus": 403,
+    "actualStatus": 403,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "reject missing required directory",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/read?path=%E9%AA%8C%E6%94%B6%E6%96%87%E6%A1%A3.txt",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 400,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "118",
+        "ETag": "W/\"76-YXvFptdq8GCfT1GyJgOK4xuKAm4\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 118,
+      "sha256": "ca80c898ddb5b4ebb0d87a7f31da445d8d6a031270f4e1b19e0d17f56667ce2f",
+      "bodyUtf8": "{\"code\":400,\"data\":[\"Field directory Invalid input: expected string, received undefined\"],\"message\":\"Parameter error\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 22,
+    "expectedStatus": 400,
+    "actualStatus": 400,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "read fresh settings",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/settings/get",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "15892",
+        "ETag": "W/\"3e14-axGlCmD9YVcKAtAe8DZlsfm7lLU\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 15892,
+      "sha256": "18b17b032b82344b46ce77cf7c380f28aed48cdbef7f8e94d79e60e2205749c5",
+      "bodySummary": {
+        "code": 200,
+        "providerCount": 1,
+        "allProviderApiKeysEmpty": true,
+        "ui": {}
+      },
+      "bodyPublication": "Full settings retained privately; bundled provider metadata omitted from publication. Full-object restart equality was asserted."
+    },
+    "id": 23,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "save non-sensitive UI language setting",
+    "request": {
+      "method": "PUT",
+      "url": "http://127.0.0.1:3000/api/settings/save",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US",
+        "Content-Type": "application/json"
+      },
+      "originalBodyBytes": 15911,
+      "originalBodySha256": "d7327d8977a31ea35fcf99cfc284b16c5b53a9dc1371550aa6df12ce263b9782",
+      "bodyConstruction": "GET settings; preserve entire returned object; merge ui.language = en-US; PUT {settings: object}. Full raw body retained privately because bundled provider metadata contains external references.",
+      "changedFields": {
+        "settings.ui.language": "en-US"
+      }
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "Content-Length": "64",
+        "ETag": "W/\"40-jRm9Fn+Jt968/S5O3UmECE7FfIw\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 64,
+      "sha256": "0724d5d0ff233539d141d9d10319975022f40f49924b306a22acb10fb604ce67",
+      "bodyUtf8": "{\"code\":200,\"data\":{\"nodeMenu\":null},\"message\":\"Settings saved\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 24,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "reopen workspace after server restart",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/workspaces/check?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:05 GMT",
+        "Content-Length": "114",
+        "ETag": "W/\"72-Myjw4Pjv3StdHL3K7tvAwXSdfz4\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 114,
+      "sha256": "2005998a252e9d7e109b7981eb1b264ab8fede4c7f006302fd24113c89fe9503",
+      "bodyUtf8": "{\"code\":200,\"data\":{\"directory\":\"<RUN>/data/workspaces/runtimeProbe\"},\"message\":\"Success\"}",
+      "bodyPublication": "Displayed text substitutes private filesystem roots; size and SHA-256 above refer to original unredacted response bytes."
+    },
+    "id": 25,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "reopen document after server restart",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/read?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=%E9%AA%8C%E6%94%B6%E6%96%87%E6%A1%A3.txt",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Accept-Ranges": "bytes",
+        "Last-Modified": "Tue, 20 Oct 2026 11:40:04 GMT",
+        "ETag": "W/\"73-1a1591c895b\"",
+        "Content-Type": "text/plain; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:05 GMT",
+        "Content-Length": "115",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 115,
+      "sha256": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1",
+      "bodyUtf8": "Toonflow runtime persistence\n中文内容：保存后重新打开。\nUTF-8: 🌱\nRevision-checked update retained.\n",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 26,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true,
+    "expectedBodySha256": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1",
+    "actualBodySha256": "cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1"
+  },
+  {
+    "label": "snapshot after server restart",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/workspaces/files/read?directory=%3CRUN%3E%2Fdata%2Fworkspaces%2FruntimeProbe&path=%E9%AA%8C%E6%94%B6%E6%96%87%E6%A1%A3.txt&snapshot=true",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:05 GMT",
+        "Content-Length": "267",
+        "ETag": "W/\"10b-tJpGy9nxVCWM8qVCrBwbLwu4ZMs\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 267,
+      "sha256": "7e27ddbe23d1d6f59113ee6f937acc972aef149b69f149c84341975236816d94",
+      "bodyUtf8": "{\"code\":200,\"data\":{\"text\":\"Toonflow runtime persistence\\n中文内容：保存后重新打开。\\nUTF-8: 🌱\\nRevision-checked update retained.\\n\",\"encoding\":\"utf-8\",\"revision\":\"cd7f8e5aa784043d5b61be56e419eabf7a3ee8367380bc13b0d25d30ccc2e7d1\"},\"message\":\"Success\"}",
+      "bodyPublication": "Full body shown; size and SHA-256 refer to these exact UTF-8 bytes."
+    },
+    "id": 27,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  },
+  {
+    "label": "reopen saved settings after restart",
+    "request": {
+      "method": "GET",
+      "url": "http://127.0.0.1:3000/api/settings/get",
+      "headers": {
+        "Origin": "http://127.0.0.1:3000",
+        "X-Toonflow-Workspace": "1",
+        "Accept-Language": "en-US"
+      },
+      "bodyUtf8": null
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Language": "en",
+        "Vary": "Accept-Language",
+        "Cache-Control": "no-store",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Oct 2026 11:40:05 GMT",
+        "Content-Length": "15918",
+        "ETag": "W/\"3e2e-vmDHG8LueTYVvt3Or3P403mTghM\"",
+        "X-Powered-By": "Express"
+      },
+      "bytes": 15918,
+      "sha256": "1bbd72c09571e858cb7b06678e3ab3a64605da6b296c1f0dcd95bd2d7d0db09f",
+      "bodySummary": {
+        "code": 200,
+        "providerCount": 1,
+        "allProviderApiKeysEmpty": true,
+        "ui": {
+          "language": "en-US"
+        }
+      },
+      "bodyPublication": "Full settings retained privately; bundled provider metadata omitted from publication. Full-object restart equality was asserted."
+    },
+    "id": 28,
+    "expectedStatus": 200,
+    "actualStatus": 200,
+    "statusMatchesExpectation": true
+  }
+]

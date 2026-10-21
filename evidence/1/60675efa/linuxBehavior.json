@@ -1,0 +1,17 @@
+[
+  {
+    "file": "unit/providerFixture.test.ts",
+    "exitCode": 0,
+    "output": "bun test v1.3.14 (0d9b296a)\n\nunit/providerFixture.test.ts:\n(pass) provider fixture rejects missing key without transport invocation [0.61ms]\n(pass) provider fixture maps supported text input to final video output [0.80ms]\n(pass) provider fixture surfaces submission HTTP failure without polling [0.14ms]\n(pass) provider fixture rejects success status without required task identifier [0.14ms]\n(pass) provider fixture surfaces failed task instead of reporting media success [0.12ms]\n(pass) provider fixture cancellation terminates pending polling [1.37ms]\n\n 6 pass\n 0 fail\n 16 expect() calls\nRan 6 tests across 1 file. [16.00ms]\n"
+  },
+  {
+    "file": "integration/workspaceFiles.test.ts",
+    "exitCode": 0,
+    "output": "bun test v1.3.14 (0d9b296a)\n\nintegration/workspaceFiles.test.ts:\n(pass) workspace saves and reopens exact persisted content [9.62ms]\n(pass) workspace rejects parent traversal and absolute paths [0.67ms]\n(pass) workspace rejects mutation of its root [0.32ms]\n(pass) workspace exclusive save preserves same-name destination [1.32ms]\n(pass) workspace copy refuses existing target and preserves source [1.28ms]\n(pass) workspace parent lock rejects conflicting descendant then releases [0.71ms]\n\n 6 pass\n 0 fail\n 12 expect() calls\nRan 6 tests across 1 file. [361.00ms]\n"
+  },
+  {
+    "file": "integration/pluginInitialization.test.ts",
+    "exitCode": 0,
+    "output": "bun test v1.3.14 (0d9b296a)\n\nintegration/pluginInitialization.test.ts:\n(pass) plugins first revision installs selected built-ins and writes exact revision [8.76ms]\n(pass) plugins same revision restart leaves installed bytes unchanged [2.29ms]\n(pass) plugins revision upgrade preserves third-party plugins and user materials [5.42ms]\n(pass) plugins failed replacement preserves prior revision and recoverable target [2.04ms]\n(pass) plugins missing source does not advance revision [0.55ms]\n\n 5 pass\n 0 fail\n 13 expect() calls\nRan 5 tests across 1 file. [73.00ms]\n"
+  }
+]

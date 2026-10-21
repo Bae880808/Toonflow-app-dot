@@ -1,0 +1,32 @@
+{
+  "baselineSha": "c3f1b7e576cd401ea4e6aff9989b11c10d1eac9c",
+  "platform": "Linux, Windows-style Git configuration fixture; real Windows CI remains required",
+  "command": "node --test tests/gitInspection.test.ts",
+  "testSha256": "e88f397c94965bf1fd3ef1f8219f2dc9b1c04ca1aef759143f6181cee5f2b49a",
+  "regressionBefore": {
+    "exitCode": 1,
+    "pass": 1,
+    "fail": 3,
+    "reason": "Git stderr warning parsed as phantom path (empty and nonempty diff); checkout CRLF instead of LF"
+  },
+  "regressionAfter": {
+    "exitCode": 0,
+    "pass": 4,
+    "fail": 0
+  },
+  "infrastructureAfter": {
+    "exitCode": 0,
+    "pass": 33,
+    "fail": 0
+  },
+  "fixedCoreAfter": {
+    "exitCode": 0,
+    "command": "bun test ./unit ./integration (cwd tests; isolated temporary data directory)"
+  },
+  "unchangedGate": "Both candidateStatus guards remain exact empty-string checks; no EOL ignore/reset/cleanup added to candidate gate",
+  "documentation": [
+    "https://git-scm.com/docs/git-config",
+    "https://github.com/actions/checkout"
+  ],
+  "remaining": "Real Windows checkout/build/gate CI; full runtime/UI acceptance remains incomplete"
+}

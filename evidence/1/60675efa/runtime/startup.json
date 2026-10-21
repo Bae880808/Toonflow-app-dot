@@ -1,0 +1,104 @@
+[
+  {
+    "tag": "firstStart",
+    "guardEvents": [
+      {
+        "event": "installed",
+        "detail": {
+          "listener": "loopback only",
+          "outbound": "Node HTTP/TLS/net and global fetch guarded",
+          "limitation": "not an OS firewall"
+        }
+      },
+      {
+        "event": "forceLoopbackListen",
+        "detail": {
+          "port": 3000,
+          "requestedHost": "unspecified",
+          "actualHost": "127.0.0.1"
+        }
+      },
+      {
+        "event": "listenerAddress",
+        "detail": {
+          "address": "127.0.0.1",
+          "family": "IPv4",
+          "port": 3000
+        }
+      },
+      {
+        "event": "forceLoopbackListen",
+        "detail": {
+          "port": 10588,
+          "requestedHost": "127.0.0.1",
+          "actualHost": "127.0.0.1"
+        }
+      },
+      {
+        "event": "listenerAddress",
+        "detail": {
+          "address": "127.0.0.1",
+          "family": "IPv4",
+          "port": 10588
+        }
+      }
+    ],
+    "startupLines": [
+      "[服务启动成功]: http://localhost:3000",
+      "[启动耗时]: 586.00ms"
+    ],
+    "originalLogSha256": "b5718bc309b21dc78bf825ba2594af58d8f5d620f187b5891c94922d32173444",
+    "rawLogPublication": "Retained privately. Expected rejection stacks include minified source with unrelated external references; rejected response bodies are preserved in httpRecords.json."
+  },
+  {
+    "tag": "secondStart",
+    "guardEvents": [
+      {
+        "event": "installed",
+        "detail": {
+          "listener": "loopback only",
+          "outbound": "Node HTTP/TLS/net and global fetch guarded",
+          "limitation": "not an OS firewall"
+        }
+      },
+      {
+        "event": "forceLoopbackListen",
+        "detail": {
+          "port": 3000,
+          "requestedHost": "unspecified",
+          "actualHost": "127.0.0.1"
+        }
+      },
+      {
+        "event": "listenerAddress",
+        "detail": {
+          "address": "127.0.0.1",
+          "family": "IPv4",
+          "port": 3000
+        }
+      },
+      {
+        "event": "forceLoopbackListen",
+        "detail": {
+          "port": 10588,
+          "requestedHost": "127.0.0.1",
+          "actualHost": "127.0.0.1"
+        }
+      },
+      {
+        "event": "listenerAddress",
+        "detail": {
+          "address": "127.0.0.1",
+          "family": "IPv4",
+          "port": 10588
+        }
+      }
+    ],
+    "startupLines": [
+      "[服务启动成功]: http://localhost:3000",
+      "[启动耗时]: 414.00ms"
+    ],
+    "originalLogSha256": "150c624e3a911a41e0b4c139eea8fc8d2e5241b41dae825ca03ab9d168e1a1da",
+    "rawLogPublication": "Retained privately. Expected rejection stacks include minified source with unrelated external references; rejected response bodies are preserved in httpRecords.json."
+  }
+]

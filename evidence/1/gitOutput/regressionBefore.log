@@ -1,0 +1,94 @@
+(node:12) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ Git warnings are not parsed as changed paths and Git logs remain redacted (30.053212ms)
+✖ real changed paths and nonzero Git exits remain visible (21.641214ms)
+✔ non-Git commands retain both output streams for test report validation (57.661243ms)
+✖ workflow checkout uses LF even with a Windows-style global Git configuration (22.41079ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 254.910699
+
+✖ failing tests:
+
+test at tests/gitInspection.test.ts:37:1
+✖ Git warnings are not parsed as changed paths and Git logs remain redacted (30.053212ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+  + [
+  +   "warning: in the working copy of 'generated.ts', LF will be replaced by CRLF the next time Git touches it\n"
+  + ]
+  - []
+
+      at file://<REPO>/tests/gitInspection.test.ts:45:10
+      at fixture (file://<REPO>/tests/gitInspection.test.ts:33:5)
+      at TestContext.<anonymous> (file://<REPO>/tests/gitInspection.test.ts:37:89)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ "warning: in the working copy of 'generated.ts', LF will be replaced by CRLF the next time Git touches it\n" ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/gitInspection.test.ts:49:1
+✖ real changed paths and nonzero Git exits remain visible (21.641214ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    [
+      'generated.ts',
+  +   "warning: in the working copy of 'generated.ts', LF will be replaced by CRLF the next time Git touches it\n"
+    ]
+
+      at file://<REPO>/tests/gitInspection.test.ts:52:10
+      at fixture (file://<REPO>/tests/gitInspection.test.ts:33:5)
+      at TestContext.<anonymous> (file://<REPO>/tests/gitInspection.test.ts:49:71)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'generated.ts', "warning: in the working copy of 'generated.ts', LF will be replaced by CRLF the next time Git touches it\n" ],
+    expected: [ 'generated.ts' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/gitInspection.test.ts:64:1
+✖ workflow checkout uses LF even with a Windows-style global Git configuration (22.41079ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + 'export {};\r\n'
+  - 'export {};\n'
+                ^
+
+      at file://<REPO>/tests/gitInspection.test.ts:71:10
+      at fixture (file://<REPO>/tests/gitInspection.test.ts:33:5)
+      at TestContext.<anonymous> (file://<REPO>/tests/gitInspection.test.ts:64:92)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'export {};\r\n',
+    expected: 'export {};\n',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

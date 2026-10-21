@@ -34,7 +34,7 @@ bun scripts/verify.ts --profile android --base <旧基线SHA> --head <待验收S
 
 ### core 的最小组成
 
-建议首次 core 基线使用 Windows x64，与既有桌面准备链路一致；Linux 独立服务构建另行验证。跨平台入口不等于任意系统都无需 SDK 即可运行。后续增加 Linux/macOS core runner，须实测前置条件与覆盖，不靠跳过类型错误实现。
+core 基线允许 Linux x64 与 Windows x64，两者运行同一固定 Server/Web 行为及浏览器路径；分别记录结果，不以一方成功覆盖另一方失败。首次有效基线仍须实测完整前置条件、类型检查、构建、HTTP/UI 与干净候选。桌面/移动及公共跨平台改动仍按下述风险矩阵追加真实平台验证。其他系统/架构未建立 core 基线时明确拒绝，不靠跳过错误实现。
 
 1. 记录 Git SHA、基线、系统/架构、Bun 版本、依赖锁与验收版本；检查 diff 范围、冲突标记及意外生成文件。依赖在隔离环境用现有 `bun install --frozen-lockfile` 显式准备，不能改锁文件求通过。Windows x64 的 SDK 准备使用现有 `bun apps/desktop/node_modules/electrobun/bin/electrobun.cjs prepare`；检查所需类型文件存在，不能将 SDK 缺失归为业务测试 FAIL。
 2. 逐个运行根 workspaces 中具有 typecheck script 的工作区，调用形式为现有 `bun run --cwd <工作区> typecheck`。core 明确排除需要桌面 SDK 的 `apps/desktop`，由平台门禁补齐；排除不是“全仓类型检查通过”。同时显式运行 `bun node_modules/typescript/bin/tsc -p packages/providers/tsconfig.json --noEmit`。后者是利用现有编译器与配置的新增验收调用，不是已有 package script。需在 bootstrap 实测完整调用清单，不能假定批量 filter 已覆盖全部。

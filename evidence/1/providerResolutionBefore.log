@@ -1,0 +1,52 @@
+Node v24.19.0
+Old configuration commit: 5c10068c5157e92b8b22fce215077d17f08ed9d9
+Test SHA-256: b326912f6c85d031fcb5a4ba370d6b3b372ca0fff5feff378a337d5a1061a227
+Command: node --test tests/providerResolution.test.ts
+✖ test resolution preserves public export @toonflow/providers (1.048208ms)
+✖ test resolution preserves public export @toonflow/providers/media/metaso (0.13368ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121.395261
+
+✖ failing tests:
+
+test at tests/providerResolution.test.ts:11:3
+✖ test resolution preserves public export @toonflow/providers (1.048208ms)
+  AssertionError [ERR_ASSERTION]: test import requires an explicit public-export mapping
+      at TestContext.<anonymous> (file:///workspace/scratch/33212c1e7fe5/wt-1/tests/providerResolution.test.ts:13:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/providerResolution.test.ts:11:3
+✖ test resolution preserves public export @toonflow/providers/media/metaso (0.13368ms)
+  AssertionError [ERR_ASSERTION]: test import requires an explicit public-export mapping
+      at TestContext.<anonymous> (file:///workspace/scratch/33212c1e7fe5/wt-1/tests/providerResolution.test.ts:13:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+Exit code: 1
